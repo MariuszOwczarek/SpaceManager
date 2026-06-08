@@ -16,7 +16,7 @@ class HeaderPanel(Static):
     def render(self):
         cargo = []
         fuel_capacity = (
-            self.game.player["spacecraft_fuel_capacity"]
+            self.game.player["spacecraft"].definition.fuel_tank_capacity
         )
         for resource, amount in self.game.player["resources"].items():
             if resource == "fuel":
@@ -33,19 +33,20 @@ class HeaderPanel(Static):
             else:
                 cargo_text = "[dim]NO CARGO[/dim]"
             fuel = self.game.player["resources"]["fuel"]
-            fuel_capacity = self.game.player["spacecraft_fuel_capacity"]
+            fuel_capacity = (self.game.player["spacecraft"]
+                             .definition.fuel_tank_capacity)
             text = (
                 f"[bold cyan]TURN:[/bold cyan] "
                 f"{self.game.turn}\n"
                 f"[bold cyan]CREDITS:[/bold cyan] "
                 f"{self.game.player['credits']}\n"
                 f"[bold cyan]SPACECRAFT TYPE:[/bold cyan] "
-                f"{self.game.player['spacecraft_type']}\n"
+                f"{self.game.player["spacecraft"].definition.type}\n"
                 f"[bold cyan]SPACECRAFT NAME:[/bold cyan] "
-                f"{self.game.player['spacecraft_name']}\n"
+                f"{self.game.player["spacecraft"].definition.name}\n"
                 f"[bold cyan]CARGO:[/bold cyan] "
                 f"{self.game.used_capacity()}/"
-                f"{self.game.player['spacecraft_capacity']}\n"
+                f"{self.game.player["spacecraft"].definition.cargo_capacity}\n"
                 f"[bold cyan]FREE:[/bold cyan] "
                 f"{self.game.free_capacity()}\n\n"
                 f"[bold cyan]FUEL TANK:[/bold cyan] "
