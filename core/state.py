@@ -33,7 +33,7 @@ class GameState:
     def add_log(self, message):
         self.logs.append(message)
 
-        if len(self.logs) > 10:
+        if len(self.logs) > 8:
             self.logs.pop(0)
 
     # =====================================================

@@ -5,10 +5,54 @@ from rich.table import Table
 from config.resources import RESOURCES
 from config.planets import PLANETS
 from config.buildings import BUILDINGS
-from config.player import PLAYER_DATA
 
 
 class HeaderPanel(Static):
+    def __init__(self, game, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.game = game
+
+    def render(self):
+        cargo = []
+        fuel_capacity = (
+            self.game.player.spacecraft.definition.fuel_tank_capacity
+        )
+        for resource, amount in self.game.player.resources.items():
+            if resource == "fuel":
+                cargo_fuel = max(0, amount - fuel_capacity)
+                if cargo_fuel > 0:
+                    cargo.append(
+                        f"FUEL: {cargo_fuel}"
+                    )
+            else:
+                if amount > 0:
+                    cargo.append(f"{resource.upper()}:{amount}")
+            fuel = self.game.player.resources["fuel"]
+            fuel_capacity = (self.game.player.spacecraft
+                             .definition.fuel_tank_capacity)
+            text = (
+                f"[bold cyan]TURN:[/bold cyan] "
+                f"{self.game.turn}\n"
+                f"[bold cyan]CREDITS:[/bold cyan] "
+                f"{self.game.player.credits}\n"
+                f"[bold cyan]SPACECRAFT TYPE:[/bold cyan] "
+                f"{self.game.player.spacecraft.definition.type}\n"
+                f"[bold cyan]SPACECRAFT NAME:[/bold cyan] "
+                f"{self.game.player.spacecraft.definition.name}\n"
+                f"[bold cyan]FUEL TANK:[/bold cyan] "
+                f"{min(fuel, fuel_capacity)}/"
+                f"{fuel_capacity}\n"
+            )
+        player = self.game.player
+        title_inside = f"STAR MANAGER - {player.player_name.upper()}"
+        return Panel(
+            text,
+            title=f"[bold cyan]{title_inside}[/bold cyan]",
+            border_style="cyan"
+        )
+
+
+class CargoPanel(Static):
     def __init__(self, game, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.game = game
@@ -32,30 +76,15 @@ class HeaderPanel(Static):
                 cargo_text = " | ".join(cargo)
             else:
                 cargo_text = "[dim]NO CARGO[/dim]"
-            fuel = self.game.player.resources["fuel"]
-            fuel_capacity = (self.game.player.spacecraft
-                             .definition.fuel_tank_capacity)
             text = (
-                f"[bold cyan]TURN:[/bold cyan] "
-                f"{self.game.turn}\n"
-                f"[bold cyan]CREDITS:[/bold cyan] "
-                f"{self.game.player.credits}\n"
-                f"[bold cyan]SPACECRAFT TYPE:[/bold cyan] "
-                f"{self.game.player.spacecraft.definition.type}\n"
-                f"[bold cyan]SPACECRAFT NAME:[/bold cyan] "
-                f"{self.game.player.spacecraft.definition.name}\n"
                 f"[bold cyan]CARGO:[/bold cyan] "
                 f"{self.game.used_capacity()}/"
-                f"{self.game.player.spacecraft.definition.cargo_capacity}\n"
+                f"{self.game.player.spacecraft.definition.cargo_capacity}. "
                 f"[bold cyan]FREE:[/bold cyan] "
                 f"{self.game.free_capacity()}\n\n"
-                f"[bold cyan]FUEL TANK:[/bold cyan] "
-                f"{min(fuel, fuel_capacity)}/"
-                f"{fuel_capacity}\n"
                 f"{cargo_text}"
             )
-        player = PLAYER_DATA["player"]
-        title_inside = f"STAR MANAGER - {player.player_name.upper()}"
+        title_inside = "CARGO INFORMATION"
         return Panel(
             text,
             title=f"[bold cyan]{title_inside}[/bold cyan]",
@@ -111,9 +140,9 @@ class MarketPanel(Static):
         planet = self.game.planets[self.game.current_planet]
         table = Table(expand=True)
         table.add_column("RESOURCES")
-        table.add_column("AVAIL")
+        table.add_column("AVAILABLE")
         table.add_column("PRICE")
-        table.add_column("WGHT")
+        table.add_column("WEIGHT")
 
         for resource_key, resource in RESOURCES.items():
             market_item = (planet.market[resource_key])
@@ -265,7 +294,9 @@ class CommandsPanel(Static):
     def render(self):
         help_text = """
         [bold cyan]COMMANDS[/bold cyan]
-        move | buy | sell | build | end | exit
+        ACTIONS:   | move     | buy    | sell    | build   | end     | exit
+        PLANETS:   | Mars     | Venus  | Jupiter | Saturn  | Mercury
+        BUILDINGS: | Hospital | School | Factory | Barracks
         """
         return Panel(
             help_text,

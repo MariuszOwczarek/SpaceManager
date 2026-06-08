@@ -2,7 +2,8 @@ from textual.app import App, ComposeResult
 from textual.containers import Horizontal
 from textual.widgets import Input
 from ui.panels import (PlanetPanel, LogsPanel, IntelPanel, HeaderPanel,
-                       MarketPanel, StatusPanel, CommandsPanel, BuildingsPanel)
+                       MarketPanel, StatusPanel, CommandsPanel, BuildingsPanel,
+                       CargoPanel)
 from core.state import GameState
 from commands.move import handle_move
 from commands.buy import handle_buy
@@ -22,17 +23,26 @@ class StarManager(App):
         layout: horizontal;
     }
     #middle {
-        height: 2fr;
+        height: 1.5fr;
         layout: horizontal;
     }
-    #bottom {
+    #bottom_input{
+        height: 5;
+    }
+    #bottom_panels{
         height: 10;
-        layout: vertical;
+        layout: horizontal;
     }
     #header {
         width: 1fr;
     }
-    #logs {
+    #commands{
+        width: 1fr;
+    }
+    #logs{
+        width: 1fr;
+    }
+    #cargo {
         width: 1fr;
     }
     #planet_panel{
@@ -89,15 +99,18 @@ class StarManager(App):
     def compose(self) -> ComposeResult:
         with Horizontal(id="top"):
             yield HeaderPanel(self.game, id="header")
-            yield LogsPanel(self.game, id="logs")
+            yield CargoPanel(self.game, id="cargo")
             yield IntelPanel(self.game, id="intel")
 
         with Horizontal(id="middle"):
             yield PlanetPanel(self.game, id="planet_panel")
 
-        with Horizontal(id="bottom"):
+        with Horizontal(id="bottom_input"):
             yield Input(placeholder="COMMAND...")
-            yield CommandsPanel()
+
+        with Horizontal(id="bottom_panels"):
+            yield CommandsPanel(id="commands")
+            yield LogsPanel(self.game, id="logs")
 
     # =====================================================
     # REFRESH
@@ -106,6 +119,7 @@ class StarManager(App):
         planet_panel = self.query_one(PlanetPanel)
         planet_panel.refresh_planet_style()
         self.query_one(HeaderPanel).refresh()
+        self.query_one(CargoPanel).refresh()
         self.query_one(LogsPanel).refresh()
         self.query_one(PlanetPanel).refresh()
         self.query_one(StatusPanel).refresh()

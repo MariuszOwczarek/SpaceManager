@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from models.spacecrafts import SpacecraftState
+from models.spacecraft import SpacecraftState
 
 
 @dataclass(slots=True)

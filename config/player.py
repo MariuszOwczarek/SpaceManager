@@ -1,5 +1,5 @@
 from models.player import PlayerState
-from models.spacecrafts import SpacecraftState
+from models.spacecraft import SpacecraftState
 from config.resources import RESOURCES
 from config.spacecrafts import SPACECRAFTS
 

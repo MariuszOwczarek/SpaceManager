@@ -1,4 +1,4 @@
-from models.spacecrafts import SpacecraftDefinition
+from models.spacecraft import SpacecraftDefinition
 
 
 SPACECRAFTS = {
