@@ -16,9 +16,9 @@ class HeaderPanel(Static):
     def render(self):
         cargo = []
         fuel_capacity = (
-            self.game.player["spacecraft"].definition.fuel_tank_capacity
+            self.game.player.spacecraft.definition.fuel_tank_capacity
         )
-        for resource, amount in self.game.player["resources"].items():
+        for resource, amount in self.game.player.resources.items():
             if resource == "fuel":
                 cargo_fuel = max(0, amount - fuel_capacity)
                 if cargo_fuel > 0:
@@ -32,21 +32,21 @@ class HeaderPanel(Static):
                 cargo_text = " | ".join(cargo)
             else:
                 cargo_text = "[dim]NO CARGO[/dim]"
-            fuel = self.game.player["resources"]["fuel"]
-            fuel_capacity = (self.game.player["spacecraft"]
+            fuel = self.game.player.resources["fuel"]
+            fuel_capacity = (self.game.player.spacecraft
                              .definition.fuel_tank_capacity)
             text = (
                 f"[bold cyan]TURN:[/bold cyan] "
                 f"{self.game.turn}\n"
                 f"[bold cyan]CREDITS:[/bold cyan] "
-                f"{self.game.player['credits']}\n"
+                f"{self.game.player.credits}\n"
                 f"[bold cyan]SPACECRAFT TYPE:[/bold cyan] "
-                f"{self.game.player["spacecraft"].definition.type}\n"
+                f"{self.game.player.spacecraft.definition.type}\n"
                 f"[bold cyan]SPACECRAFT NAME:[/bold cyan] "
-                f"{self.game.player["spacecraft"].definition.name}\n"
+                f"{self.game.player.spacecraft.definition.name}\n"
                 f"[bold cyan]CARGO:[/bold cyan] "
                 f"{self.game.used_capacity()}/"
-                f"{self.game.player["spacecraft"].definition.cargo_capacity}\n"
+                f"{self.game.player.spacecraft.definition.cargo_capacity}\n"
                 f"[bold cyan]FREE:[/bold cyan] "
                 f"{self.game.free_capacity()}\n\n"
                 f"[bold cyan]FUEL TANK:[/bold cyan] "

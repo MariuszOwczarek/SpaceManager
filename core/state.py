@@ -2,9 +2,7 @@ from config.resources import RESOURCES
 from config.planets import PLANETS
 from config.buildings import BUILDINGS
 import random
-from config.spacecrafts import SPACECRAFTS
 from models.market import MarketItem
-from models.spacecrafts import SpacecraftState
 from config.player import PLAYER_DATA
 
 
@@ -17,14 +15,7 @@ class GameState:
         self.current_planet = "Mars"
         self.logs = []
         self.market_memory = {}
-        self.player = {
-            "credits": PLAYER_DATA["player"].credits,
-            "spacecraft": SpacecraftState(
-                definition=SPACECRAFTS["shuttle"],
-                fuel=SPACECRAFTS["shuttle"].fuel_tank_capacity
-            ),
-            "resources": {resource: 0 for resource in RESOURCES},
-        }
+        self.player = PLAYER_DATA["player"]
         self.planets = {
             "Mars": self.create_planet("Mars"),
             "Venus": self.create_planet("Venus"),
@@ -104,9 +95,9 @@ class GameState:
     def used_capacity(self):
         total = 0
         fuel_tank_capacity = (
-            self.player["spacecraft"].definition.fuel_tank_capacity
+            self.player.spacecraft.definition.fuel_tank_capacity
         )
-        for resource_key, amount in self.player["resources"].items():
+        for resource_key, amount in self.player.resources.items():
             resource = RESOURCES[resource_key]
             if resource_key == "fuel":
                 cargo_fuel = max(0, amount - fuel_tank_capacity)
@@ -116,19 +107,19 @@ class GameState:
         return round(total, 1)
 
     def free_capacity(self):
-        cargo_capacity = self.player["spacecraft"].definition.cargo_capacity
+        cargo_capacity = self.player.spacecraft.definition.cargo_capacity
         return round(cargo_capacity -
                      self.used_capacity(), 1)
 
     def fuel_used_capacity(self):
-        fuel = self.player["resources"]["fuel"]
+        fuel = self.player.resources["fuel"]
         return fuel
 
     def free_fuel(self):
-        return round(self.player["spacecraft"].definition.fuel_tank_capacity -
+        return round(self.player.spacecraft.definition.fuel_tank_capacity -
                      self.fuel_used_capacity(), 1)
 
     def cargo_fuel(self):
-        total_fuel = self.player["resources"]["fuel"]
-        fuel_capacity = self.player["spacecraft"].definition.fuel_tank_capacity
+        total_fuel = self.player.resources["fuel"]
+        fuel_capacity = self.player.spacecraft.definition.fuel_tank_capacity
         return max(0, total_fuel - fuel_capacity)
