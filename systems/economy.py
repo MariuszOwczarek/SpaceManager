@@ -4,7 +4,7 @@ import random
 
 def resource_price_change(planet):
     for resource_key, resource in RESOURCES.items():
-        market = planet["market"][resource_key]
+        market = planet.market[resource_key]
         stock = market.stock
         base_price = resource.base_price
         current_price = (
@@ -36,7 +36,7 @@ def resource_price_change(planet):
 
 def resource_quantity_change(planet):
     for resource_key, resource in RESOURCES.items():
-        market = planet["market"][resource_key]
+        market = planet.market[resource_key]
         resource_change = random.randint(-3, 8)
         market.stock += resource_change
         if market.stock < 0:

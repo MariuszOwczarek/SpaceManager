@@ -48,7 +48,7 @@ def handle_build(game, app, parts):
     # CREDIT CHECK
     # =============================================
     if (
-        game.player["credits"]
+        game.player.credits
         < credit_cost
     ):
         return fail(
@@ -61,7 +61,7 @@ def handle_build(game, app, parts):
     # POPULATION CHECK
     # =============================================
     if (
-        planet["population"] < population_cost
+        planet.population < population_cost
     ):
         return fail(
             game,
@@ -76,7 +76,7 @@ def handle_build(game, app, parts):
         resource_costs.items()
     ):
         if (
-            game.player["resources"][resource] < amount
+            game.player.resources[resource] < amount
         ):
             return fail(
                 game,
@@ -90,14 +90,14 @@ def handle_build(game, app, parts):
     # =============================================
     # PAY CREDITS
     # =============================================
-    game.player["credits"] -= (
+    game.player.credits -= (
         credit_cost
     )
 
     # =============================================
     # PAY POPULATION
     # =============================================
-    planet["population"] -= (
+    planet.population -= (
         population_cost
     )
 
@@ -107,29 +107,27 @@ def handle_build(game, app, parts):
     for resource, amount in (
         resource_costs.items()
     ):
-        game.player["resources"][
-            resource
-        ] -= amount
+        game.player.resources[resource] -= amount
 
     # =============================================
     # BUILD
     # =============================================
-    planet["buildings"][structure_key] += 1
+    planet.buildings[structure_key] += 1
 
     # =============================================
     # BUILDING EFFECTS
     # =============================================
     if structure_key == "hospital":
-        planet["health"] += 10
-        planet["happiness"] += 3
+        planet.health += 10
+        planet.happiness += 3
     elif structure_key == "school":
-        planet["happiness"] += 12
+        planet.happiness += 12
     elif structure_key == "factory":
-        planet["population"] += 5
-        planet["happiness"] -= 2
+        planet.population += 5
+        planet.happiness -= 2
     elif structure_key == "barracks":
-        planet["safety"] += 15
-        planet["happiness"] -= 5
+        planet.safety += 15
+        planet.happiness -= 5
 
     # =============================================
     # LOG

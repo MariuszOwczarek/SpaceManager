@@ -3,6 +3,7 @@ from config.planets import PLANETS
 from config.buildings import BUILDINGS
 import random
 from models.market import MarketItem
+from models.planet import PlanetState
 from config.player import PLAYER_DATA
 
 
@@ -65,21 +66,22 @@ class GameState:
     # PLANETS
     # =====================================================
     def create_planet(self, name):
-        return {
-            "max_population": random.randrange(3000, 11_000, 1000),
-            "market": self.create_market(name),
-            "buildings": {building: 0 for building in BUILDINGS},
-            "population": random.randint(300, 1000),
-            "health": random.randint(40, 80),
-            "happiness": random.randint(40, 80),
-            "safety": random.randint(50, 70)
-        }
+        return PlanetState(
+                definition=PLANETS[name],
+                market=self.create_market(name),
+                buildings={building: 0 for building in BUILDINGS},
+                population=random.randint(300, 1000),
+                max_population=random.randrange(3000, 11_000, 1000),
+                health=random.randint(40, 80),
+                happiness=random.randint(40, 80),
+                safety=random.randint(50, 70)
+            )
 
     # =====================================================
     # MARKET MEMORY
     # =====================================================
     def save_market_data(self, planet_name):
-        market = self.planets[planet_name]["market"]
+        market = self.planets[planet_name].market
         prices = {resource_key: market_item.price
                   for resource_key, market_item in market.items()
                   }

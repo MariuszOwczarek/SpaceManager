@@ -88,11 +88,11 @@ class StatusPanel(Static):
         table = Table(expand=True)
         table.add_column("ATTRIBUTE")
         table.add_column("VALUE")
-        table.add_row("Max Population", str(planet["max_population"]))
-        table.add_row("Population", str(planet["population"]))
-        table.add_row("Health", str(planet["health"]))
-        table.add_row("Happiness", str(planet["happiness"]))
-        table.add_row("Safety", str(planet["safety"]))
+        table.add_row("Max Population", str(planet.max_population))
+        table.add_row("Population", str(planet.population))
+        table.add_row("Health", str(planet.health))
+        table.add_row("Happiness", str(planet.happiness))
+        table.add_row("Safety", str(planet.safety))
         planet_color = (PLANETS[self.game.current_planet].color)
 
         return Panel(table,
@@ -116,7 +116,7 @@ class MarketPanel(Static):
         table.add_column("WGHT")
 
         for resource_key, resource in RESOURCES.items():
-            market_item = (planet["market"][resource_key])
+            market_item = (planet.market[resource_key])
             price = market_item.price
             stock = market_item.stock
             if price < 30:
@@ -164,7 +164,7 @@ class BuildingsPanel(Static):
             )
             table.add_row(
                 building_key.upper(),
-                str(planet["buildings"][building_key]),
+                str(planet.buildings[building_key]),
                 str(requirements.credits),
                 resource_text
             )

@@ -34,7 +34,7 @@ def handle_sell(game, app, parts):
             message="AMOUNT MUST BE > 0"
         )
 
-    if game.player["resources"][resource_key] < amount:
+    if game.player.resources[resource_key] < amount:
         return fail(
             game,
             app,
@@ -43,15 +43,15 @@ def handle_sell(game, app, parts):
 
     resource = RESOURCES[resource_key]
     planet = game.planets[game.current_planet]
-    market = planet["market"][resource_key]
+    market = planet.market[resource_key]
     price = market.price
     total = amount * price
 
     # =============================================
     # TRANSACTION
     # =============================================
-    game.player["resources"][resource_key] -= amount
-    game.player["credits"] += total
+    game.player.resources[resource_key] -= amount
+    game.player.credits += total
     market.stock += amount
     game.add_log(f"SOLD " f"{amount} " f"{resource.name.upper()}")
     app.refresh_all()

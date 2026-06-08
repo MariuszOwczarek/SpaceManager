@@ -29,7 +29,7 @@ def handle_buy(game, app, parts):
 
     resource = RESOURCES[resource_key]
     planet = game.planets[game.current_planet]
-    market = planet["market"][resource_key]
+    market = planet.market[resource_key]
     available = market.stock
     price = market.price
     total_cost = amount * price
@@ -52,7 +52,7 @@ def handle_buy(game, app, parts):
             message="NOT ENOUGH PLANET STOCK"
         )
 
-    if game.player["credits"] < total_cost:
+    if game.player.credits < total_cost:
         return fail(
             game,
             app,
@@ -69,8 +69,8 @@ def handle_buy(game, app, parts):
     # =============================================
     # TRANSACTION
     # =============================================
-    game.player["credits"] -= total_cost
-    game.player["resources"][resource_key] += amount
+    game.player.credits -= total_cost
+    game.player.resources[resource_key] += amount
     market.stock -= amount
     game.add_log(f"BOUGHT " f"{amount} " f"{resource.name.upper()}")
     app.refresh_all()
