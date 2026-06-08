@@ -1,31 +1,48 @@
-PLANET_SHORTCUTS = {
-    "Mars": "MAR",
-    "Venus": "VEN",
-    "Jupiter": "JUP",
-    "Saturn": "SAT",
-    "Mercury": "MER",
-}
+from models.planet import PlanetDefinition
 
-PLANET_BONUSES = {
-    "Mars": {"cheap": "iron", "resource_bonus": "iron"},
-    "Venus": {"cheap": "fuel", "resource_bonus": "fuel"},
-    "Jupiter": {"cheap": "uranium", "resource_bonus": "uranium"},
-    "Saturn": {"cheap": "gold", "resource_bonus": "gold"},
-    "Mercury": {"cheap": "silicon", "resource_bonus": "silicon"},
-}
+PLANETS = {
+    "Mars": PlanetDefinition(
+        name="Mars",
+        shortcut="MAR",
+        planet_type="Industrial Colony",
+        color="cyan",
+        cheap_resource="iron",
+        resource_bonus="iron",
+    ),
 
-PLANET_TYPES = {
-    "Mars": "Industrial Colony",
-    "Venus": "Trade Hub",
-    "Jupiter": "Mining World",
-    "Saturn": "Luxury Sector",
-    "Mercury": "Scientific Outpost"
-}
+    "Venus": PlanetDefinition(
+        name="Venus",
+        shortcut="VEN",
+        planet_type="Trade Hub",
+        color="green",
+        cheap_resource="fuel",
+        resource_bonus="fuel",
+    ),
 
-PLANET_COLORS = {
-    "Mars": "cyan",
-    "Venus": "green",
-    "Jupiter": "blue",
-    "Saturn": "yellow",
-    "Mercury": "magenta"
+    "Jupiter": PlanetDefinition(
+        name="Jupiter",
+        shortcut="JUP",
+        planet_type="Mining World",
+        color="blue",
+        cheap_resource="uranium",
+        resource_bonus="uranium",
+    ),
+
+    "Saturn": PlanetDefinition(
+        name="Saturn",
+        shortcut="SAT",
+        planet_type="Luxury Sector",
+        color="yellow",
+        cheap_resource="gold",
+        resource_bonus="gold",
+    ),
+
+    "Mercury": PlanetDefinition(
+        name="Mercury",
+        shortcut="MER",
+        planet_type="Scientific Outpost",
+        color="magenta",
+        cheap_resource="silicon",
+        resource_bonus="silicon",
+    ),
 }

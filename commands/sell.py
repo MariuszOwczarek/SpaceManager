@@ -1,4 +1,4 @@
-from config.economy import RESOURCES
+from config.resources import RESOURCES
 from utils.ui import fail
 
 
@@ -10,9 +10,9 @@ def handle_sell(game, app, parts):
             message="USAGE: sell gold 5"
         )
 
-    resource = parts[1].lower()
+    resource_key = parts[1].lower()
 
-    if resource not in RESOURCES:
+    if resource_key not in RESOURCES:
         return fail(
             game,
             app,
@@ -34,22 +34,24 @@ def handle_sell(game, app, parts):
             message="AMOUNT MUST BE > 0"
         )
 
-    if game.player["resources"][resource] < amount:
+    if game.player["resources"][resource_key] < amount:
         return fail(
             game,
             app,
             message="NOT ENOUGH RESOURCES"
         )
 
+    resource = RESOURCES[resource_key]
     planet = game.planets[game.current_planet]
-    price = planet["prices"][resource]
+    market = planet["market"][resource_key]
+    price = market.price
     total = amount * price
 
     # =============================================
     # TRANSACTION
     # =============================================
-    game.player["resources"][resource] -= amount
+    game.player["resources"][resource_key] -= amount
     game.player["credits"] += total
-    planet["resources"][resource] += amount
-    game.add_log(f"SOLD " f"{amount} " f"{resource.upper()}")
+    market.stock += amount
+    game.add_log(f"SOLD " f"{amount} " f"{resource.name.upper()}")
     app.refresh_all()

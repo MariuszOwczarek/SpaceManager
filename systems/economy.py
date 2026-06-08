@@ -1,14 +1,14 @@
-from config.economy import RESOURCES, BASE_PRICES
-from config.planets import PLANET_BONUSES
+from config.resources import RESOURCES
 import random
 
 
 def resource_price_change(planet):
-    for resource in RESOURCES:
-        stock = planet["resources"][resource]
-        base_price = BASE_PRICES[resource]
+    for resource_key, resource in RESOURCES.items():
+        market = planet["market"][resource_key]
+        stock = market.stock
+        base_price = resource.base_price
         current_price = (
-            planet["prices"][resource]
+            market.price
         )
         drift = random.randint(-5, 5)
         stock_pressure = 0
@@ -29,24 +29,16 @@ def resource_price_change(planet):
 
         if new_price < minimum_price:
             new_price = minimum_price
-        planet["prices"][resource] = (
+        market.price = (
             int(new_price)
             )
 
 
-def resource_quantity_change(planet, planet_name):
-    for resource in RESOURCES:
+def resource_quantity_change(planet):
+    for resource_key, resource in RESOURCES.items():
+        market = planet["market"][resource_key]
         resource_change = random.randint(-3, 8)
-        new_resource = (planet["resources"][resource]
-                        + resource_change)
-        if new_resource < 0:
-            new_resource = 0
-        planet["resources"][resource] = new_resource
+        market.stock += resource_change
+        if market.stock < 0:
+            market.stock = 0
 
-        cheap_resource = (
-            PLANET_BONUSES[planet_name]["cheap"]
-        )
-
-        planet["prices"][cheap_resource] = int(
-            planet["prices"][cheap_resource] * 0.9
-        )

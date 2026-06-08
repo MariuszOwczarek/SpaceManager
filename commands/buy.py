@@ -1,4 +1,4 @@
-from config.economy import RESOURCES, RESOURCE_WEIGHT
+from config.resources import RESOURCES
 from utils.ui import fail
 
 
@@ -10,9 +10,9 @@ def handle_buy(game, app, parts):
             message="USAGE: buy iron 10"
         )
 
-    resource = parts[1].lower()
+    resource_key = parts[1].lower()
 
-    if resource not in RESOURCES:
+    if resource_key not in RESOURCES:
         return fail(
             game,
             app,
@@ -27,11 +27,13 @@ def handle_buy(game, app, parts):
             message="INVALID AMOUNT"
         )
 
+    resource = RESOURCES[resource_key]
     planet = game.planets[game.current_planet]
-    available = planet["resources"][resource]
-    price = planet["prices"][resource]
+    market = planet["market"][resource_key]
+    available = market.stock
+    price = market.price
     total_cost = amount * price
-    total_weight = amount * RESOURCE_WEIGHT[resource]
+    total_weight = amount * resource.weight
 
     # =============================================
     # VALIDATION
@@ -68,7 +70,7 @@ def handle_buy(game, app, parts):
     # TRANSACTION
     # =============================================
     game.player["credits"] -= total_cost
-    game.player["resources"][resource] += amount
-    planet["resources"][resource] -= amount
-    game.add_log(f"BOUGHT " f"{amount} " f"{resource.upper()}")
+    game.player["resources"][resource_key] += amount
+    market.stock -= amount
+    game.add_log(f"BOUGHT " f"{amount} " f"{resource.name.upper()}")
     app.refresh_all()

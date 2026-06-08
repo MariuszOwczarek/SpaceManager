@@ -1,8 +1,8 @@
-from config.economy import RESOURCES, RESOURCE_WEIGHT
-from config.planets import PLANET_BONUSES
+from config.resources import RESOURCES
+from config.planets import PLANETS
 from config.buildings import BUILDINGS
 import random
-
+from models.market import MarketItem
 from config.spacecrafts import SPACECRAFTS
 from config.player import PLAYER_DATA
 
@@ -17,11 +17,11 @@ class GameState:
         self.logs = []
         self.market_memory = {}
         self.player = {
-            "credits": PLAYER_DATA["credits"],
-            "spacecraft_type": SPACECRAFTS["industrial"]["type"],
-            "spacecraft_name": SPACECRAFTS["industrial"]["name"],
-            "spacecraft_capacity": SPACECRAFTS["shuttle"]["cargo_capacity"],
-            "spacecraft_fuel_capacity": SPACECRAFTS["shuttle"]["fuel_tank"],
+            "credits": PLAYER_DATA["player"].credits,
+            "spacecraft_type": SPACECRAFTS["industrial"].type,
+            "spacecraft_name": SPACECRAFTS["industrial"].name,
+            "spacecraft_capacity": SPACECRAFTS["shuttle"].cargo_capacity,
+            "spacecraft_fuel_capacity": SPACECRAFTS["shuttle"].fuel_tank,
             "resources": {resource: 0 for resource in RESOURCES},
         }
         self.planets = {
@@ -46,19 +46,25 @@ class GameState:
     # =====================================================
     # GENERATORS
     # =====================================================
-    def generate_prices(self):
-        return {
-            "fuel": random.randint(5, 20),
-            "coal": random.randint(10, 30),
-            "iron": random.randint(20, 50),
-            "gold": random.randint(80, 200),
-            "silicon": random.randint(40, 100),
-            "uranium": random.randint(150, 400),
-            "silver": random.randint(50, 120),
-        }
+    def create_market(self, planet_name):
+        market = {}
+        cheap_resource = (PLANETS[planet_name].cheap_resource
+                          )
+        for resource_key, resource in RESOURCES.items():
+            base_price = resource.base_price
 
-    def generate_resources(self):
-        return {resource: random.randint(20, 100) for resource in RESOURCES}
+            if resource_key == cheap_resource:
+                base_price = int(base_price*0.7)
+
+            market[resource_key] = MarketItem(
+                resource_key=resource_key,
+                stock=random.randint(30, 120),
+                price=random.randint(
+                    int(base_price * 0.7),
+                    int(base_price * 1.34)
+                )
+            )
+        return market
 
     def generate_building_costs(self):
         return {building: random.randint(1500, 3500) for building in BUILDINGS}
@@ -67,13 +73,9 @@ class GameState:
     # PLANETS
     # =====================================================
     def create_planet(self, name):
-        prices = self.generate_prices()
-        cheap_resource = PLANET_BONUSES[name]["cheap"]
-        prices[cheap_resource] = int(prices[cheap_resource] * 0.7)
         return {
             "max_population": random.randrange(3000, 11_000, 1000),
-            "resources": self.generate_resources(),
-            "prices": prices,
+            "market": self.create_market(name),
             "buildings": {building: 0 for building in BUILDINGS},
             "population": random.randint(300, 1000),
             "health": random.randint(40, 80),
@@ -85,9 +87,14 @@ class GameState:
     # MARKET MEMORY
     # =====================================================
     def save_market_data(self, planet_name):
+        market = self.planets[planet_name]["market"]
+        prices = {resource_key: market_item.price
+                  for resource_key, market_item in market.items()
+                  }
+
         self.market_memory[planet_name] = {
             "turn": self.turn,
-            "prices": self.planets[planet_name]["prices"].copy(),
+            "prices": prices,
         }
 
     # =====================================================
@@ -98,12 +105,13 @@ class GameState:
         fuel_tank_capacity = (
             self.player["spacecraft_fuel_capacity"]
         )
-        for resource, amount in self.player["resources"].items():
-            if resource == "fuel":
+        for resource_key, amount in self.player["resources"].items():
+            resource = RESOURCES[resource_key]
+            if resource_key == "fuel":
                 cargo_fuel = max(0, amount - fuel_tank_capacity)
-                total += (cargo_fuel * RESOURCE_WEIGHT[resource])
+                total += (cargo_fuel * resource.weight)
             else:
-                total += (amount * RESOURCE_WEIGHT[resource])
+                total += (amount * resource.weight)
         return round(total, 1)
 
     def free_capacity(self):

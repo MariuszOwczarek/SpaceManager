@@ -1,4 +1,4 @@
-from config.buildings import BUILDINGS, BUILDING_REQUIREMENTS
+from config.buildings import BUILDINGS
 from utils.ui import fail
 
 
@@ -10,9 +10,9 @@ def handle_build(game, app, parts):
             message="USAGE: build factory"
         )
 
-    structure = parts[1].lower()
+    structure_key = parts[1].lower()
 
-    if structure not in BUILDINGS:
+    if structure_key not in BUILDINGS:
         return fail(
             game,
             app,
@@ -27,21 +27,21 @@ def handle_build(game, app, parts):
     # REQUIREMENTS
     # =============================================
     requirements = (
-        BUILDING_REQUIREMENTS[
-            structure
+        BUILDINGS[
+            structure_key
         ]
     )
 
     credit_cost = (
-        requirements["credits"]
+        requirements.credits
     )
 
     resource_costs = (
-        requirements["resources"]
+        requirements.resources
     )
 
     population_cost = (
-        requirements["population"]
+        requirements.population
     )
 
     # =============================================
@@ -114,20 +114,20 @@ def handle_build(game, app, parts):
     # =============================================
     # BUILD
     # =============================================
-    planet["buildings"][structure] += 1
+    planet["buildings"][structure_key] += 1
 
     # =============================================
     # BUILDING EFFECTS
     # =============================================
-    if structure == "hospital":
+    if structure_key == "hospital":
         planet["health"] += 10
         planet["happiness"] += 3
-    elif structure == "school":
+    elif structure_key == "school":
         planet["happiness"] += 12
-    elif structure == "factory":
+    elif structure_key == "factory":
         planet["population"] += 5
         planet["happiness"] -= 2
-    elif structure == "barracks":
+    elif structure_key == "barracks":
         planet["safety"] += 15
         planet["happiness"] -= 5
 
@@ -136,6 +136,6 @@ def handle_build(game, app, parts):
     # =============================================
     game.add_log(
         f"BUILT "
-        f"{structure.upper()}"
+        f"{structure_key.upper()}"
     )
     app.refresh_all()

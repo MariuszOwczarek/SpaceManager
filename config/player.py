@@ -1,4 +1,8 @@
+from models.player import Player
+
 PLAYER_DATA = {
-    "player_name": "Mario",
-    "credits": 10_000
+    "player": Player(
+        player_name="Mario",
+        credits=10_000
+    )
 }

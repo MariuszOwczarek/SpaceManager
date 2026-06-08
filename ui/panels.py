@@ -2,9 +2,9 @@ from textual.containers import Horizontal, Vertical
 from textual.widgets import Static
 from rich.panel import Panel
 from rich.table import Table
-from config.economy import RESOURCE_WEIGHT, RESOURCES
-from config.planets import PLANET_SHORTCUTS, PLANET_TYPES, PLANET_COLORS
-from config.buildings import BUILDINGS, BUILDING_REQUIREMENTS
+from config.resources import RESOURCES
+from config.planets import PLANETS
+from config.buildings import BUILDINGS
 from config.player import PLAYER_DATA
 
 
@@ -53,8 +53,8 @@ class HeaderPanel(Static):
                 f"{fuel_capacity}\n"
                 f"{cargo_text}"
             )
-
-        title_inside = f"STAR MANAGER - {PLAYER_DATA["player_name"].upper()}"
+        player = PLAYER_DATA["player"]
+        title_inside = f"STAR MANAGER - {player.player_name.upper()}"
         return Panel(
             text,
             title=f"[bold cyan]{title_inside}[/bold cyan]",
@@ -92,7 +92,7 @@ class StatusPanel(Static):
         table.add_row("Health", str(planet["health"]))
         table.add_row("Happiness", str(planet["happiness"]))
         table.add_row("Safety", str(planet["safety"]))
-        planet_color = (PLANET_COLORS[self.game.current_planet])
+        planet_color = (PLANETS[self.game.current_planet].color)
 
         return Panel(table,
                      title=f"[{planet_color}]"
@@ -114,8 +114,10 @@ class MarketPanel(Static):
         table.add_column("PRICE")
         table.add_column("WGHT")
 
-        for resource in RESOURCES:
-            price = planet["prices"][resource]
+        for resource_key, resource in RESOURCES.items():
+            market_item = (planet["market"][resource_key])
+            price = market_item.price
+            stock = market_item.stock
             if price < 30:
                 color = "green"
             elif price < 100:
@@ -124,12 +126,12 @@ class MarketPanel(Static):
                 color = "red"
 
             table.add_row(
-                resource.upper(),
-                str(planet["resources"][resource]),
+                resource.name.upper(),
+                str(stock),
                 f"[{color}]" f"{price}" f"[/{color}]",
-                str(RESOURCE_WEIGHT[resource]),
+                str(resource.weight),
             )
-        planet_color = (PLANET_COLORS[self.game.current_planet])
+        planet_color = (PLANETS[self.game.current_planet].color)
         return Panel(table,
                      title=f"[{planet_color}]"
                      f"MARKET PLACE"
@@ -149,23 +151,23 @@ class BuildingsPanel(Static):
         table.add_column("COUNT")
         table.add_column("COST")
         table.add_column("RESOURCES")
-        for building in BUILDINGS:
+        for building_key in BUILDINGS:
             requirements = (
-                BUILDING_REQUIREMENTS[building]
+                BUILDINGS[building_key]
             )
             resource_text = ", ".join(
                 f"{res}:{amt}"
                 for res, amt in (
-                    requirements["resources"].items()
+                    requirements.resources.items()
                 )
             )
             table.add_row(
-                building.upper(),
-                str(planet["buildings"][building]),
-                str(requirements["credits"]),
+                building_key.upper(),
+                str(planet["buildings"][building_key]),
+                str(requirements.credits),
                 resource_text
             )
-        planet_color = (PLANET_COLORS[self.game.current_planet])
+        planet_color = (PLANETS[self.game.current_planet].color)
         return Panel(table,
                      title=f"[{planet_color}]"
                      f"FACILITY PROGRESS"
@@ -204,11 +206,11 @@ class PlanetPanel(Vertical):
         )
 
         planet_type = (
-            PLANET_TYPES[planet_name]
+            PLANETS[planet_name].planet_type
         )
 
         planet_color = (
-            PLANET_COLORS[planet_name]
+            PLANETS[planet_name].color
         )
 
         self.border_title = (
@@ -239,7 +241,7 @@ class IntelPanel(Static):
         table = Table(expand=True)
         table.add_column("RESOURCES")
         for planet_name in self.game.market_memory.keys():
-            short_name = PLANET_SHORTCUTS[planet_name]
+            short_name = PLANETS[planet_name].shortcut
             age = self.game.turn - self.game.market_memory[planet_name]["turn"]
             table.add_column(f"{short_name} {age}T")
 
