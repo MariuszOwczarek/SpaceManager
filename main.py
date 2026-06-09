@@ -3,7 +3,7 @@ from textual.containers import Horizontal
 from textual.widgets import Input
 from ui.panels import (PlanetPanel, LogsPanel, IntelPanel, HeaderPanel,
                        MarketPanel, StatusPanel, CommandsPanel,
-                       FacilitiesPanel, CargoPanel)
+                       FacilitiesPanel, CargoPanel, CargoPlanetPanel)
 from core.state import GameState
 from commands.move import handle_move
 from commands.buy import handle_buy
@@ -43,6 +43,9 @@ class StarManager(App):
         width: 1fr;
     }
     #cargo {
+        width: 1fr;
+    }
+    #cargo_planet{
         width: 1fr;
     }
     #planet_panel{
@@ -100,6 +103,7 @@ class StarManager(App):
         with Horizontal(id="top"):
             yield HeaderPanel(self.game, id="header")
             yield CargoPanel(self.game, id="cargo")
+            yield CargoPlanetPanel(self.game, id="cargo_planet")
             yield IntelPanel(self.game, id="intel")
 
         with Horizontal(id="middle"):
@@ -120,6 +124,7 @@ class StarManager(App):
         planet_panel.refresh_planet_style()
         self.query_one(HeaderPanel).refresh()
         self.query_one(CargoPanel).refresh()
+        self.query_one(CargoPlanetPanel).refresh()
         self.query_one(LogsPanel).refresh()
         self.query_one(PlanetPanel).refresh()
         self.query_one(StatusPanel).refresh()

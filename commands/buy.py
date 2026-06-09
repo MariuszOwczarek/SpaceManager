@@ -29,6 +29,13 @@ def handle_buy(game, app, parts):
 
     resource = RESOURCES[resource_key]
     planet = game.planets[game.current_planet]
+
+    if resource_key not in planet.market:
+        return fail(
+            game,
+            app,
+            message="INVALID RESOURCE"
+        )
     market = planet.market[resource_key]
     available = market.stock
     price = market.price

@@ -81,6 +81,7 @@ class GameState:
                 construction_modifier=random.randrange(5, 20, 5) / 10,
                 population=random.randint(300, 1000),
                 max_population=random.randrange(3000, 11_000, 1000),
+                soldiers=0,
                 health=random.randint(40, 80),
                 happiness=random.randint(40, 80),
                 safety=random.randint(50, 70),
@@ -136,3 +137,5 @@ class GameState:
         total_fuel = self.player.resources["fuel"]
         fuel_capacity = self.player.spacecraft.definition.fuel_tank_capacity
         return max(0, total_fuel - fuel_capacity)
+
+

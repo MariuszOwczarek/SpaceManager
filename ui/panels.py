@@ -31,19 +31,19 @@ class HeaderPanel(Static):
             fuel = self.game.player.resources["fuel"]
             fuel_capacity = (self.game.player.spacecraft
                              .definition.fuel_tank_capacity)
-            text = (
-                f"[bold cyan]TURN:[/bold cyan] "
-                f"{self.game.turn}\n"
-                f"[bold cyan]CREDITS:[/bold cyan] "
-                f"{self.game.player.credits}\n"
-                f"[bold cyan]SPACECRAFT TYPE:[/bold cyan] "
-                f"{self.game.player.spacecraft.definition.type}\n"
-                f"[bold cyan]SPACECRAFT NAME:[/bold cyan] "
-                f"{self.game.player.spacecraft.definition.name}\n"
-                f"[bold cyan]FUEL TANK:[/bold cyan] "
-                f"{min(fuel, fuel_capacity)}/"
-                f"{fuel_capacity}\n"
-            )
+        text = (
+            f"[bold cyan]TURN:[/bold cyan] "
+            f"{self.game.turn}\n"
+            f"[bold cyan]CREDITS:[/bold cyan] "
+            f"{self.game.player.credits}\n"
+            f"[bold cyan]SPACECRAFT TYPE:[/bold cyan] "
+            f"{self.game.player.spacecraft.definition.type}\n"
+            f"[bold cyan]SPACECRAFT NAME:[/bold cyan] "
+            f"{self.game.player.spacecraft.definition.name}\n"
+            f"[bold cyan]FUEL TANK:[/bold cyan] "
+            f"{min(fuel, fuel_capacity)}/"
+            f"{fuel_capacity}\n"
+        )
         player = self.game.player
         title_inside = f"STAR MANAGER - {player.player_name.upper()}"
         return Panel(
@@ -73,24 +73,56 @@ class CargoPanel(Static):
             else:
                 if amount > 0:
                     cargo.append(f"{resource.upper()}:{amount}")
-            if cargo:
-                cargo_spacecraft_text = " | ".join(cargo)
-            else:
-                cargo_spacecraft_text = "[dim]NO CARGO[/dim]"
+        if cargo:
+            cargo_spacecraft_text = " | ".join(cargo)
+        else:
+            cargo_spacecraft_text = "[dim]NO CARGO[/dim]"
 
-            text = (
-                f"[bold cyan]CARGO:[/bold cyan] "
-                f"{self.game.used_capacity()}/"
-                f"{self.game.player.spacecraft.definition.cargo_capacity}. "
-                f"[bold cyan]FREE:[/bold cyan] "
-                f"{self.game.free_capacity()}\n"
-                f"{cargo_spacecraft_text}\n\n\n"
+        text = (
+            f"[bold cyan]CARGO:[/bold cyan] "
+            f"{self.game.used_capacity()}/"
+            f"{self.game.player.spacecraft.definition.cargo_capacity} "
+            f"[bold cyan]FREE:[/bold cyan] "
+            f"{self.game.free_capacity()}\n"
+            f"{cargo_spacecraft_text}\n\n\n"
             )
-        title_inside = "CARGO INFORMATION"
+        title_inside = "SHIP CARGO"
         return Panel(
             text,
             title=f"[bold cyan]{title_inside}[/bold cyan]",
             border_style="cyan"
+        )
+
+
+class CargoPlanetPanel(Static):
+    def __init__(self, game, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.game = game
+
+    def render(self):
+        cargo = []
+        planet = self.game.planets[self.game.current_planet]
+        for resource, amount in planet.storage.items():
+            if amount > 0:
+                cargo.append(f"{resource.upper()}:{amount}")
+        if cargo:
+            cargo_planet_text = " | ".join(cargo)
+        else:
+            cargo_planet_text = "[dim]NO CARGO[/dim]"
+
+        text = (
+            f"[bold red]STORAGE:[/bold red] "
+            f"{planet.used_storage()}/"
+            f"{planet.storage_capacity} "
+            f"[bold red]FREE:[/bold red] "
+            f"{planet.free_storage()}\n"
+            f"{cargo_planet_text}\n\n\n"
+        )
+        title_inside = "WAREHOUSE"
+        return Panel(
+            text,
+            title=f"[bold red]{title_inside}[/bold red]",
+            border_style="red"
         )
 
 
@@ -124,6 +156,7 @@ class StatusPanel(Static):
         table.add_row("Health", str(planet.health))
         table.add_row("Happiness", str(planet.happiness))
         table.add_row("Safety", str(planet.safety))
+        table.add_row("Soldiers", str(planet.soldiers))
         planet_color = (planet.definition.color)
 
         return Panel(table,
@@ -187,8 +220,8 @@ class FacilitiesPanel(Static):
             resource_costs = (
                 get_building_resource_cost(building_key, planet)
             )
-            resource_text = ", ".join(
-                f"{resource}:{amount}"
+            resource_text = " | ".join(
+                f"{resource[:4].upper()}:{amount}"
                 for resource, amount in (
                     resource_costs.items()
                 )

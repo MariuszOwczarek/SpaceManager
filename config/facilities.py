@@ -49,10 +49,11 @@ FACILITIES = {
             "silver": 80,
             "fuel": 100,
         },
-        population=25,
+        population=100,
         effects={
             "safety": 8,
-            "happiness": -5
+            "happiness": -5,
+            "soldiers": 80
         }
     ),
 
