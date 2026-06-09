@@ -21,16 +21,9 @@ def handle_move(game, app, parts):
     game.current_planet = (
         destination)
 
-    planet_panel = app.query_one(
-        "#planet_panel"
-    )
-    planet_panel.border_title = (
-        f"{destination.upper()} COMMAND"
-    )
-
     game.save_market_data(destination)
-
     game.add_log(f"MOVED TO "
                  f"{destination.upper()}")
 
+    app.load_layout()
     app.refresh_all()

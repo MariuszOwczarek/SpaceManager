@@ -1,16 +1,21 @@
-from textual.app import App, ComposeResult
-from textual.containers import Horizontal
+from textual.app import App
 from textual.widgets import Input
-from ui.panels import (PlanetPanel, LogsPanel, IntelPanel, HeaderPanel,
-                       MarketPanel, StatusPanel, CommandsPanel,
-                       FacilitiesPanel, CargoPanel, CargoPlanetPanel)
 from core.state import GameState
 from commands.move import handle_move
 from commands.buy import handle_buy
 from commands.sell import handle_sell
 from commands.build import handle_build
 from commands.turn_end import handle_turn_end
+from ui.layouts.foreign_layout import ForeignLayout
+from ui.layouts.homeworld_layout import HomeworldLayout
 from utils.ui import fail
+from textual.containers import Container
+from ui.panels.planet_panel import PlanetPanel
+from ui.panels.logs_panel import LogsPanel
+from ui.panels.header_panel import HeaderPanel
+from ui.panels.cargo_panel import CargoPanel
+from ui.panels.warehouse_panel import WarehousePanel
+from ui.panels.intel_panel import IntelPanel
 
 
 class StarManager(App):
@@ -89,48 +94,47 @@ class StarManager(App):
         super().__init__()
         self.game = GameState()
 
-    # =====================================================
-    # UI
-    # =====================================================
-    def on_mount(self):
-        planet_panel = self.query_one(
-            PlanetPanel
+    # =========================================
+    # ROOT UI
+    # =========================================
+
+    def compose(self):
+        yield Container(
+            id="main_content"
         )
 
-        planet_panel.refresh_planet_style()
+    # =========================================
+    # INITIALIZE
+    # =========================================
 
-    def compose(self) -> ComposeResult:
-        with Horizontal(id="top"):
-            yield HeaderPanel(self.game, id="header")
-            yield CargoPanel(self.game, id="cargo")
-            yield CargoPlanetPanel(self.game, id="cargo_planet")
-            yield IntelPanel(self.game, id="intel")
+    def on_mount(self):
+        self.load_layout()
 
-        with Horizontal(id="middle"):
-            yield PlanetPanel(self.game, id="planet_panel")
+    # =========================================
+    # DYNAMIC LAYOUT
+    # =========================================
 
-        with Horizontal(id="bottom_input"):
-            yield Input(placeholder="COMMAND...")
+    def load_layout(self):
+        container = self.query_one(
+            "#main_content"
+        )
+        container.remove_children()
+        planet = self.game.planets[
+            self.game.current_planet
+        ]
 
-        with Horizontal(id="bottom_panels"):
-            yield CommandsPanel(id="commands")
-            yield LogsPanel(self.game, id="logs")
-
-    # =====================================================
-    # REFRESH
-    # =====================================================
-    def refresh_all(self):
-        planet_panel = self.query_one(PlanetPanel)
-        planet_panel.refresh_planet_style()
-        self.query_one(HeaderPanel).refresh()
-        self.query_one(CargoPanel).refresh()
-        self.query_one(CargoPlanetPanel).refresh()
-        self.query_one(LogsPanel).refresh()
-        self.query_one(PlanetPanel).refresh()
-        self.query_one(StatusPanel).refresh()
-        self.query_one(MarketPanel).refresh()
-        self.query_one(FacilitiesPanel).refresh()
-        self.query_one(IntelPanel).refresh()
+        if planet.definition.is_homeworld:
+            container.mount(
+                HomeworldLayout(
+                    self.game
+                )
+            )
+        else:
+            container.mount(
+                ForeignLayout(
+                    self.game
+                )
+            )
 
     # =====================================================
     # INPUT
@@ -198,7 +202,15 @@ class StarManager(App):
         else:
             self.game.add_log("INVALID COMMAND")
 
-        self.refresh_all()
+    def refresh_all(self):
+        planet_panel = self.query_one(PlanetPanel)
+        planet_panel.refresh_planet_style()
+        self.query_one(HeaderPanel).refresh()
+        self.query_one(CargoPanel).refresh()
+        self.query_one(WarehousePanel).refresh()
+        self.query_one(LogsPanel).refresh()
+        self.query_one(PlanetPanel).refresh()
+        self.query_one(IntelPanel).refresh()
 
 
 # =========================================================

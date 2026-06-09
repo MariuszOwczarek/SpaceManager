@@ -13,6 +13,8 @@ class PlanetDefinition:
     resource_bonus: str
     native_resources: list[str]
     imported_resources: dict[str, float]
+    routes: dict[str, int]
+    is_homeworld: bool
 
 
 @dataclass(slots=True)

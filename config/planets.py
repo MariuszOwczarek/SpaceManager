@@ -9,8 +9,10 @@ PLANETS = {
         cheap_resource="iron",
         resource_bonus="iron",
         native_resources=["iron", "fuel", "coal"],
-        imported_resources={"silicone": 0.25,
-                            "silver": 0.15}
+        imported_resources={"silicon": 0.25,
+                            "silver": 0.15},
+        routes={},
+        is_homeworld=True
     ),
 
     "Venus": PlanetDefinition(
@@ -23,7 +25,9 @@ PLANETS = {
         native_resources=["fuel", "silver", "silicon"],
         imported_resources={"gold": 0.20,
                             "iron": 0.35,
-                            "water": 0.40}
+                            "water": 0.40},
+        routes={},
+        is_homeworld=False
     ),
 
     "Jupiter": PlanetDefinition(
@@ -36,7 +40,9 @@ PLANETS = {
         native_resources=["uranium", "iron", "coal"],
         imported_resources={"fuel": 0.40,
                             "gold": 0.10,
-                            "silicon": 0.15}
+                            "silicon": 0.15},
+        routes={},
+        is_homeworld=False
     ),
 
     "Saturn": PlanetDefinition(
@@ -49,7 +55,9 @@ PLANETS = {
         native_resources=["gold", "silver", "fuel"],
         imported_resources={"uranium": 0.25,
                             "water": 0.30,
-                            "iron": 0.20}
+                            "iron": 0.20},
+        routes={},
+        is_homeworld=False
     ),
 
     "Mercury": PlanetDefinition(
@@ -62,6 +70,8 @@ PLANETS = {
         native_resources=["silicon", "uranium", "gold"],
         imported_resources={"fuel": 0.5,
                             "silver": 0.20,
-                            "gold": 0.10}
+                            "gold": 0.10},
+        routes={},
+        is_homeworld=False
     ),
 }
