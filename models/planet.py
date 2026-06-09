@@ -10,6 +10,8 @@ class PlanetDefinition:
     color: str
     cheap_resource: str
     resource_bonus: str
+    native_resources: list[str]
+    imported_resources: dict[str, float]
 
 
 @dataclass(slots=True)
@@ -23,3 +25,5 @@ class PlanetState:
     health: int
     happiness: int
     safety: int
+    storage_capacity: int
+    storage: dict[str, int]

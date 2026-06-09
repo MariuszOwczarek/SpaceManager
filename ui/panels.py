@@ -74,16 +74,17 @@ class CargoPanel(Static):
                 if amount > 0:
                     cargo.append(f"{resource.upper()}:{amount}")
             if cargo:
-                cargo_text = " | ".join(cargo)
+                cargo_spacecraft_text = " | ".join(cargo)
             else:
-                cargo_text = "[dim]NO CARGO[/dim]"
+                cargo_spacecraft_text = "[dim]NO CARGO[/dim]"
+
             text = (
                 f"[bold cyan]CARGO:[/bold cyan] "
                 f"{self.game.used_capacity()}/"
                 f"{self.game.player.spacecraft.definition.cargo_capacity}. "
                 f"[bold cyan]FREE:[/bold cyan] "
-                f"{self.game.free_capacity()}\n\n"
-                f"{cargo_text}"
+                f"{self.game.free_capacity()}\n"
+                f"{cargo_spacecraft_text}\n\n\n"
             )
         title_inside = "CARGO INFORMATION"
         return Panel(
@@ -145,8 +146,8 @@ class MarketPanel(Static):
         table.add_column("PRICE")
         table.add_column("WEIGHT")
 
-        for resource_key, resource in RESOURCES.items():
-            market_item = (planet.market[resource_key])
+        for resource_key, market_item in planet.market.items():
+            resource = RESOURCES[resource_key]
             price = market_item.price
             stock = market_item.stock
             if price < 30:
@@ -284,13 +285,15 @@ class IntelPanel(Static):
             age = self.game.turn - self.game.market_memory[planet_name]["turn"]
             table.add_column(f"{short_name} {age}T")
 
-        for resource in RESOURCES:
-            row = [resource.upper()]
+        for resource_key in RESOURCES:
+            row = [resource_key.upper()]
             for planet_name in self.game.market_memory.keys():
-                price = (self.game
-                         .market_memory[planet_name]["prices"][resource])
-
-                row.append(str(price))
+                prices = (self.game.market_memory[planet_name]["prices"])
+                price = prices.get(resource_key)
+                if price is None:
+                    row.append("[dim]---[/dim]")
+                else:
+                    row.append(str(price))
             table.add_row(*row)
         return Panel(
             table,

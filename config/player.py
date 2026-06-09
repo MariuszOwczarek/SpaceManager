@@ -6,7 +6,7 @@ from config.spacecrafts import SPACECRAFTS
 PLAYER_DATA = {
     "player": PlayerState(
         player_name="Mario",
-        credits=10_000,
+        credits=50_000,
         spacecraft=SpacecraftState(
             definition=SPACECRAFTS["shuttle"],
             fuel=SPACECRAFTS["shuttle"].fuel_tank_capacity),

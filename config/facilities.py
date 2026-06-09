@@ -96,4 +96,18 @@ FACILITIES = {
             "happiness": -2
         }
     ),
+
+    "warehouse": Facility(
+        name="warehouse",
+        credits=7000,
+        resources={
+            "uranium": 150,
+            "iron": 100,
+            "fuel": 50
+        },
+        population=0,
+        effects={
+            "storage_capacity": 500
+        }
+    ),
 }
