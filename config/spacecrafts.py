@@ -5,7 +5,7 @@ SPACECRAFTS = {
     "shuttle": SpacecraftDefinition(
         name="Titan Hauler",
         type="Shuttle",
-        cargo_capacity=60,
+        cargo_capacity=100,
         fuel_tank_capacity=120,
         fuel_usage=2,
         speed=3,

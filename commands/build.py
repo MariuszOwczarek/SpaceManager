@@ -1,5 +1,7 @@
-from config.buildings import BUILDINGS
+from config.facilities import FACILITIES
 from utils.ui import fail
+from systems.facilities import (get_building_credit_cost,
+                                get_building_resource_cost)
 
 
 def handle_build(game, app, parts):
@@ -12,7 +14,7 @@ def handle_build(game, app, parts):
 
     structure_key = parts[1].lower()
 
-    if structure_key not in BUILDINGS:
+    if structure_key not in FACILITIES:
         return fail(
             game,
             app,
@@ -26,22 +28,22 @@ def handle_build(game, app, parts):
     # =============================================
     # REQUIREMENTS
     # =============================================
-    requirements = (
-        BUILDINGS[
+    facility = (
+        FACILITIES[
             structure_key
         ]
     )
 
     credit_cost = (
-        requirements.credits
+        get_building_credit_cost(structure_key, planet)
     )
 
     resource_costs = (
-        requirements.resources
+        get_building_resource_cost(structure_key, planet)
     )
 
     population_cost = (
-        requirements.population
+        facility.population
     )
 
     # =============================================
@@ -117,17 +119,19 @@ def handle_build(game, app, parts):
     # =============================================
     # BUILDING EFFECTS
     # =============================================
-    if structure_key == "hospital":
-        planet.health += 10
-        planet.happiness += 3
-    elif structure_key == "school":
-        planet.happiness += 12
-    elif structure_key == "factory":
-        planet.population += 5
-        planet.happiness -= 2
-    elif structure_key == "barracks":
-        planet.safety += 15
-        planet.happiness -= 5
+    for attribute, value in (
+        facility.effects.items()
+    ):
+        current = getattr(
+            planet,
+            attribute
+        )
+
+        setattr(
+            planet,
+            attribute,
+            current + value
+        )
 
     # =============================================
     # LOG

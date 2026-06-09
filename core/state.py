@@ -1,6 +1,6 @@
 from config.resources import RESOURCES
 from config.planets import PLANETS
-from config.buildings import BUILDINGS
+from config.facilities import FACILITIES
 import random
 from models.market import MarketItem
 from models.planet import PlanetState
@@ -59,9 +59,6 @@ class GameState:
             )
         return market
 
-    def generate_building_costs(self):
-        return {building: random.randint(1500, 3500) for building in BUILDINGS}
-
     # =====================================================
     # PLANETS
     # =====================================================
@@ -69,7 +66,8 @@ class GameState:
         return PlanetState(
                 definition=PLANETS[name],
                 market=self.create_market(name),
-                buildings={building: 0 for building in BUILDINGS},
+                buildings={building: 0 for building in FACILITIES},
+                construction_modifier=random.randrange(5, 20, 5) / 10,
                 population=random.randint(300, 1000),
                 max_population=random.randrange(3000, 11_000, 1000),
                 health=random.randint(40, 80),

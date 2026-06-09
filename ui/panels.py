@@ -3,8 +3,9 @@ from textual.widgets import Static
 from rich.panel import Panel
 from rich.table import Table
 from config.resources import RESOURCES
-from config.planets import PLANETS
-from config.buildings import BUILDINGS
+from config.facilities import FACILITIES
+from systems.facilities import (get_building_credit_cost,
+                                get_building_resource_cost)
 
 
 class HeaderPanel(Static):
@@ -122,7 +123,7 @@ class StatusPanel(Static):
         table.add_row("Health", str(planet.health))
         table.add_row("Happiness", str(planet.happiness))
         table.add_row("Safety", str(planet.safety))
-        planet_color = (PLANETS[self.game.current_planet].color)
+        planet_color = (planet.definition.color)
 
         return Panel(table,
                      title=f"[{planet_color}]"
@@ -161,7 +162,7 @@ class MarketPanel(Static):
                 f"[{color}]" f"{price}" f"[/{color}]",
                 str(resource.weight),
             )
-        planet_color = (PLANETS[self.game.current_planet].color)
+        planet_color = (planet.definition.color)
         return Panel(table,
                      title=f"[{planet_color}]"
                      f"MARKET PLACE"
@@ -169,7 +170,7 @@ class MarketPanel(Static):
                      border_style=planet_color)
 
 
-class BuildingsPanel(Static):
+class FacilitiesPanel(Static):
     def __init__(self, game, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.game = game
@@ -181,23 +182,28 @@ class BuildingsPanel(Static):
         table.add_column("COUNT")
         table.add_column("COST")
         table.add_column("RESOURCES")
-        for building_key in BUILDINGS:
-            requirements = (
-                BUILDINGS[building_key]
+        for building_key in FACILITIES:
+            resource_costs = (
+                get_building_resource_cost(building_key, planet)
             )
             resource_text = ", ".join(
-                f"{res}:{amt}"
-                for res, amt in (
-                    requirements.resources.items()
+                f"{resource}:{amount}"
+                for resource, amount in (
+                    resource_costs.items()
                 )
             )
+
+            credit_cost = (
+                get_building_credit_cost(building_key, planet)
+            )
+
             table.add_row(
                 building_key.upper(),
                 str(planet.buildings[building_key]),
-                str(requirements.credits),
+                str(credit_cost),
                 resource_text
             )
-        planet_color = (PLANETS[self.game.current_planet].color)
+        planet_color = (planet.definition.color)
         return Panel(table,
                      title=f"[{planet_color}]"
                      f"FACILITY PROGRESS"
@@ -225,22 +231,24 @@ class PlanetPanel(Vertical):
                 id="market"
             )
 
-            yield BuildingsPanel(
+            yield FacilitiesPanel(
                 self.game,
                 id="buildings"
             )
 
     def refresh_planet_style(self):
+        planet = self.game.planets[self.game.current_planet]
+
         planet_name = (
-            self.game.current_planet
+            planet.definition.name
         )
 
         planet_type = (
-            PLANETS[planet_name].planet_type
+            planet.definition.planet_type
         )
 
         planet_color = (
-            PLANETS[planet_name].color
+            planet.definition.color
         )
 
         self.border_title = (
@@ -271,7 +279,8 @@ class IntelPanel(Static):
         table = Table(expand=True)
         table.add_column("RESOURCES")
         for planet_name in self.game.market_memory.keys():
-            short_name = PLANETS[planet_name].shortcut
+            planet = self.game.planets[planet_name]
+            short_name = planet.definition.shortcut
             age = self.game.turn - self.game.market_memory[planet_name]["turn"]
             table.add_column(f"{short_name} {age}T")
 

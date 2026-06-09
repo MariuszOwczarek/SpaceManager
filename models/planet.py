@@ -17,6 +17,7 @@ class PlanetState:
     definition: PlanetDefinition
     market: dict[str, MarketItem]
     buildings: dict[str, int]
+    construction_modifier: float
     population: int
     max_population: int
     health: int

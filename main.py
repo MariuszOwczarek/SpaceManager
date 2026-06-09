@@ -2,8 +2,8 @@ from textual.app import App, ComposeResult
 from textual.containers import Horizontal
 from textual.widgets import Input
 from ui.panels import (PlanetPanel, LogsPanel, IntelPanel, HeaderPanel,
-                       MarketPanel, StatusPanel, CommandsPanel, BuildingsPanel,
-                       CargoPanel)
+                       MarketPanel, StatusPanel, CommandsPanel,
+                       FacilitiesPanel, CargoPanel)
 from core.state import GameState
 from commands.move import handle_move
 from commands.buy import handle_buy
@@ -23,7 +23,7 @@ class StarManager(App):
         layout: horizontal;
     }
     #middle {
-        height: 1.5fr;
+        height: 1.3fr;
         layout: horizontal;
     }
     #bottom_input{
@@ -124,7 +124,7 @@ class StarManager(App):
         self.query_one(PlanetPanel).refresh()
         self.query_one(StatusPanel).refresh()
         self.query_one(MarketPanel).refresh()
-        self.query_one(BuildingsPanel).refresh()
+        self.query_one(FacilitiesPanel).refresh()
         self.query_one(IntelPanel).refresh()
 
     # =====================================================

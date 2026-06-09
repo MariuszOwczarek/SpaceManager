@@ -3,8 +3,9 @@ from typing import Dict
 
 
 @dataclass(slots=True)
-class Buildings:
+class Facility:
     name: str
     credits: int
     resources: Dict[str, int]
     population: int
+    effects: dict[str, int]

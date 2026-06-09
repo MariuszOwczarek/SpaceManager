@@ -48,5 +48,12 @@ RESOURCES = {
         base_price=290,
         weight=1.0,
         category=""
+    ),
+
+    "water": Resource(
+        name="water",
+        base_price=100,
+        weight=1.0,
+        category=""
     )
 }
