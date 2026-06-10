@@ -29,10 +29,10 @@ class CargoPanel(Static):
 
         text = (
             f"[bold cyan]CARGO:[/bold cyan] "
-            f"{self.game.used_capacity()}/"
+            f"{self.game.player.used_capacity()}/"
             f"{self.game.player.spacecraft.definition.cargo_capacity} "
             f"[bold cyan]FREE:[/bold cyan] "
-            f"{self.game.free_capacity()}\n"
+            f"{self.game.player.free_capacity()}\n"
             f"{cargo_spacecraft_text}\n\n\n"
             )
         title_inside = "SHIP CARGO"

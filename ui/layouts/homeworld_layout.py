@@ -1,8 +1,9 @@
-from textual.containers import Horizontal, Vertical
+from textual.containers import Horizontal
 from ui.panels.planet_panel import PlanetPanel
+from ui.layouts.base_layout import BaseLayout
 
 
-class HomeworldLayout(Vertical):
+class HomeworldLayout(BaseLayout):
     def __init__(self, game, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.game = game
@@ -21,3 +22,9 @@ class HomeworldLayout(Vertical):
                 id="planet_panel"
             )
 
+    def refresh_all(self):
+        planet_panel = self.query_one(
+            PlanetPanel
+        )
+        planet_panel.refresh_planet_style()
+        planet_panel.refresh()

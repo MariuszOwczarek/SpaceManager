@@ -1,7 +1,7 @@
 from textual.app import App
 from textual.widgets import Input
 from textual.containers import Horizontal
-from core.state import GameState
+from core.game_state import GameState
 from commands.move import handle_move
 from commands.buy import handle_buy
 from commands.sell import handle_sell
@@ -9,6 +9,7 @@ from commands.build import handle_build
 from commands.turn_end import handle_turn_end
 from ui.layouts.foreign_layout import ForeignLayout
 from ui.layouts.homeworld_layout import HomeworldLayout
+from ui.layouts.base_layout import BaseLayout
 from utils.ui import fail
 from textual.containers import Container
 from ui.shell.logs_panel import LogsPanel
@@ -135,30 +136,30 @@ class StarManager(App):
     # INITIALIZE
     # =========================================
 
-    def on_mount(self):
-        self.load_layout()
+    async def on_mount(self):
+        await self.load_layout()
 
     # =========================================
     # DYNAMIC LAYOUT
     # =========================================
 
-    def load_layout(self):
+    async def load_layout(self):
         container = self.query_one(
             "#main_content"
         )
-        container.remove_children()
+        await container.remove_children()
         planet = self.game.planets[
             self.game.current_planet
         ]
 
         if planet.definition.is_homeworld:
-            container.mount(
+            await container.mount(
                 HomeworldLayout(
                     self.game
                 )
             )
         else:
-            container.mount(
+            await container.mount(
                 ForeignLayout(
                     self.game
                 )
@@ -237,6 +238,10 @@ class StarManager(App):
         self.query_one(WarehousePanel).refresh()
         self.query_one(LogsPanel).refresh()
         self.query_one(IntelPanel).refresh()
+
+        layouts = list(self.query(BaseLayout))
+        if layouts:
+            layouts[0].refresh_all()
 
 
 # =========================================================

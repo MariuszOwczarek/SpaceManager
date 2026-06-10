@@ -1,8 +1,8 @@
-from textual.containers import Vertical
 from textual.widgets import Static
+from ui.layouts.base_layout import BaseLayout
 
 
-class ForeignLayout(Vertical):
+class ForeignLayout(BaseLayout):
     def __init__(self, game, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.game = game
