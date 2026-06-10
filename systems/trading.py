@@ -1,5 +1,5 @@
 from config.resources import RESOURCES
-from utils.ui import fail
+from utils.ui import fail, add_log
 
 
 def buy_resource(game, app, parts):
@@ -71,7 +71,7 @@ def buy_resource(game, app, parts):
     game.player.credits -= total_cost
     game.player.resources[resource_key] += amount
     market.stock -= amount
-    game.add_log(f"BOUGHT " f"{amount} " f"{resource.name.upper()}")
+    add_log(game, f"BOUGHT " f"{amount} " f"{resource.name.upper()}")
     app.refresh_all()
 
 
@@ -119,5 +119,5 @@ def sell_resource(game, app, parts):
     game.player.resources[resource_key] -= amount
     game.player.credits += total
     market.stock += amount
-    game.add_log(f"SOLD " f"{amount} " f"{resource.name.upper()}")
+    add_log(game, f"SOLD " f"{amount} " f"{resource.name.upper()}")
     app.refresh_all()

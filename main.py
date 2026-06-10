@@ -10,7 +10,7 @@ from commands.turn_end import handle_turn_end
 from ui.layouts.foreign_layout import ForeignLayout
 from ui.layouts.homeworld_layout import HomeworldLayout
 from ui.layouts.base_layout import BaseLayout
-from utils.ui import fail
+from utils.ui import fail, add_log
 from textual.containers import Container
 from ui.shell.logs_panel import LogsPanel
 from ui.shell.header_panel import HeaderPanel
@@ -56,7 +56,7 @@ class StarManager(App):
         width: 1fr;
     }
     #planet_panel{
-        padding: 1;
+
         width: 3fr;
     }
     .planet_title{
@@ -190,46 +190,39 @@ class StarManager(App):
 
         if action in ["x", "exit"]:
             self.exit()
-
         elif action in ["m", "move"]:
             handle_move(
                 game=self.game,
                 app=self,
                 parts=parts
             )
-
         elif action in ["b", "buy"]:
             handle_buy(
                 game=self.game,
                 app=self,
                 parts=parts
             )
-
         elif action in ["s", "sell"]:
             handle_sell(
                 game=self.game,
                 app=self,
                 parts=parts
             )
-
         elif action == "build":
             handle_build(
                 game=self.game,
                 app=self,
                 parts=parts
             )
-
         elif action in ["e", "end"]:
             handle_turn_end(
                 game=self.game,
                 app=self
             )
-
         elif action == "help":
-            self.game.add_log("move mars | buy iron 10 | sell gold 5")
-
+            add_log(self.game, "move mars | buy iron 10 | sell gold 5")
         else:
-            self.game.add_log("INVALID COMMAND")
+            add_log(self.game, "INVALID COMMAND")
 
     def refresh_all(self):
         self.query_one(HeaderPanel).refresh()

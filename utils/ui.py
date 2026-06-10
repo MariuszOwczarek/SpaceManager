@@ -1,4 +1,11 @@
+def add_log(game, message):
+    game.logs.append(message)
+
+    if len(game.logs) > 8:
+        game.logs.pop(0)
+
+
 def fail(game, app, message):
-    game.add_log(message)
+    add_log(game, message)
     app.refresh_all()
     return

@@ -1,3 +1,6 @@
+from utils.ui import add_log
+
+
 def hospital_population(planet, planet_name, game):
     hospitals = (
         planet.buildings["hospital"])
@@ -14,7 +17,4 @@ def hospital_population(planet, planet_name, game):
                 planet.population = (
                     planet.max_population
                 )
-            game.add_log(
-                f"{planet_name}: "
-                f"POPULATION +{growth}"
-            )
+            add_log(game, f"{planet_name}: POPULATION +{growth}")

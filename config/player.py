@@ -10,6 +10,9 @@ PLAYER_DATA = {
         spacecraft=SpacecraftState(
             definition=SPACECRAFTS["shuttle"],
             fuel=SPACECRAFTS["shuttle"].fuel_tank_capacity),
-        resources={resource: 0 for resource in RESOURCES}
+        resources={resource: 0 for resource in RESOURCES},
+        in_transit=False,
+        destination=None,
+        turns_remaining=0
     )
 }

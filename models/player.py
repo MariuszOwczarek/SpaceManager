@@ -9,6 +9,9 @@ class PlayerState:
     credits: int
     spacecraft: SpacecraftState
     resources: dict[str, int]
+    in_transit: bool
+    destination: str | None
+    turns_remaining: int
 
     # =====================================================
     # CARGO

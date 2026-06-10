@@ -1,4 +1,5 @@
 from config.planets import PLANETS
+from utils.ui import add_log
 
 
 def factory_production(planet, planet_name, game):
@@ -23,9 +24,7 @@ def factory_production(planet, planet_name, game):
         production = factories * 15
         bonus_market.stock += production
 
-        game.add_log(
-            f"{planet_name}: "
-            f"{bonus_resource.upper()} "
-            f"+{production}"
+        add_log(
+            game,
+            f"{planet_name}: {bonus_resource.upper()} + {production}"
         )
-

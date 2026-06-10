@@ -1,6 +1,6 @@
 from config.facilities import FACILITIES
 from models.planet import PlanetState
-from utils.ui import fail
+from utils.ui import fail, add_log
 
 
 def get_building_credit_cost(facility_key: str, planet: PlanetState):
@@ -142,8 +142,5 @@ def build_facilities(game, app, parts):
     # =============================================
     # LOG
     # =============================================
-    game.add_log(
-        f"BUILT "
-        f"{structure_key.upper()}"
-    )
+    add_log(game, f"BUILT {structure_key.upper()}")
     app.refresh_all()

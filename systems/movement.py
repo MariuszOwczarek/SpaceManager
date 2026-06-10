@@ -1,4 +1,5 @@
-from utils.ui import fail
+from utils.ui import fail, add_log
+from systems.economy import save_market_data
 
 
 def move_ship(game, app, parts):
@@ -11,12 +12,11 @@ def move_ship(game, app, parts):
             message="INVALID PLANET"
         )
 
+    game.player.destination = destination
     game.current_planet = (
         destination)
-
-    game.save_market_data(destination)
-    game.add_log(f"MOVED TO "
-                 f"{destination.upper()}")
+    save_market_data(game, destination)
+    add_log(game, f"MOVED TO {destination.upper()}")
 
     app.load_layout()
     app.refresh_all()

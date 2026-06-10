@@ -1,6 +1,7 @@
 from systems.production import factory_production
 from systems.population import hospital_population
-from systems.economy import resource_price_change, resource_quantity_change
+from systems.economy import (resource_price_change, resource_quantity_change)
+from utils.ui import add_log
 
 
 def handle_turn_end(game, app):
@@ -10,6 +11,5 @@ def handle_turn_end(game, app):
         resource_quantity_change(planet)
         factory_production(planet, planet_name, game)
         hospital_population(planet, planet_name, game)
-    game.save_market_data(game.current_planet)
-    game.add_log("TURN ENDED")
+    add_log(game, "TURN ENDED")
     app.refresh_all()
