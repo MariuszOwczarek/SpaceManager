@@ -1,11 +1,5 @@
-from textual.containers import Horizontal, Vertical
-from textual.widgets import Input
-from ui.panels.cargo_panel import CargoPanel
-from ui.panels.warehouse_panel import WarehousePanel
-from ui.panels.logs_panel import LogsPanel
-from ui.panels.intel_panel import IntelPanel
-from ui.panels.header_panel import HeaderPanel
-from ui.panels.command_panel import CommandsPanel
+from textual.containers import Vertical
+from textual.widgets import Static
 
 
 class ForeignLayout(Vertical):
@@ -14,42 +8,11 @@ class ForeignLayout(Vertical):
         self.game = game
 
     def compose(self):
-        with Horizontal(id="top"):
-            yield HeaderPanel(self.game, id="header")
-            yield CargoPanel(self.game, id="cargo")
-            yield WarehousePanel(
-                self.game,
-                id="cargo_planet"
-            )
-
-            yield IntelPanel(
-                self.game,
-                id="intel"
-            )
-
-        with Horizontal(id="bottom_input"):
-            yield Input(
-                placeholder="COMMAND..."
-            )
-
-        with Horizontal(id="bottom_panels"):
-            yield CommandsPanel(
-                id="commands"
-            )
-
-            yield LogsPanel(
-                self.game,
-                id="logs"
-            )
+        yield Static("FOREIGN TERMINAL")
 
     def refresh_all(self):
         refreshables = [
-            HeaderPanel,
-            CargoPanel,
-            WarehousePanel,
-            IntelPanel,
-            CommandsPanel,
-            LogsPanel,
+
         ]
         for widget_type in refreshables:
             widgets = self.query(

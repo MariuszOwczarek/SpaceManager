@@ -1,5 +1,6 @@
 from textual.app import App
 from textual.widgets import Input
+from textual.containers import Horizontal
 from core.state import GameState
 from commands.move import handle_move
 from commands.buy import handle_buy
@@ -10,12 +11,12 @@ from ui.layouts.foreign_layout import ForeignLayout
 from ui.layouts.homeworld_layout import HomeworldLayout
 from utils.ui import fail
 from textual.containers import Container
-from ui.panels.planet_panel import PlanetPanel
-from ui.panels.logs_panel import LogsPanel
-from ui.panels.header_panel import HeaderPanel
-from ui.panels.cargo_panel import CargoPanel
-from ui.panels.warehouse_panel import WarehousePanel
-from ui.panels.intel_panel import IntelPanel
+from ui.shell.logs_panel import LogsPanel
+from ui.shell.header_panel import HeaderPanel
+from ui.shell.cargo_panel import CargoPanel
+from ui.shell.warehouse_panel import WarehousePanel
+from ui.shell.intel_panel import IntelPanel
+from ui.shell.command_panel import CommandsPanel
 
 
 class StarManager(App):
@@ -99,9 +100,36 @@ class StarManager(App):
     # =========================================
 
     def compose(self):
+        with Horizontal(id="top"):
+            yield HeaderPanel(self.game, id="header")
+            yield CargoPanel(self.game, id="cargo")
+            yield WarehousePanel(
+                self.game,
+                id="cargo_planet"
+            )
+            yield IntelPanel(
+                self.game,
+                id="intel"
+            )
+
         yield Container(
             id="main_content"
         )
+
+        with Horizontal(id="bottom_input"):
+            yield Input(
+                placeholder="COMMAND..."
+            )
+
+        with Horizontal(id="bottom_panels"):
+            yield CommandsPanel(
+                id="commands"
+            )
+
+            yield LogsPanel(
+                self.game,
+                id="logs"
+            )
 
     # =========================================
     # INITIALIZE
@@ -203,13 +231,11 @@ class StarManager(App):
             self.game.add_log("INVALID COMMAND")
 
     def refresh_all(self):
-        planet_panel = self.query_one(PlanetPanel)
-        planet_panel.refresh_planet_style()
         self.query_one(HeaderPanel).refresh()
         self.query_one(CargoPanel).refresh()
+        self.query_one(CommandsPanel).refresh()
         self.query_one(WarehousePanel).refresh()
         self.query_one(LogsPanel).refresh()
-        self.query_one(PlanetPanel).refresh()
         self.query_one(IntelPanel).refresh()
 
 
