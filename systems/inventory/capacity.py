@@ -1,13 +1,10 @@
-from config.resources import RESOURCES
-
-
-def used_capacity(player):
+def used_capacity(player, resources):
     total = 0
     fuel_tank_capacity = (
         player.spacecraft.definition.fuel_tank_capacity
     )
     for resource_key, amount in player.resources.items():
-        resource = RESOURCES[resource_key]
+        resource = resources[resource_key]
         if resource_key == "fuel":
             cargo_fuel = max(0, amount - fuel_tank_capacity)
             total += (cargo_fuel * resource.weight)
@@ -16,9 +13,9 @@ def used_capacity(player):
     return round(total, 1)
 
 
-def free_capacity(player):
+def free_capacity(player, resources):
     cargo_capacity = player.spacecraft.definition.cargo_capacity
-    return round(cargo_capacity - used_capacity(player), 1)
+    return round(cargo_capacity - used_capacity(player, resources), 1)
 
 
 def fuel_used_capacity(player):

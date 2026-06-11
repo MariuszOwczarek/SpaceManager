@@ -1,6 +1,6 @@
 from textual.widgets import Static
 from rich.panel import Panel
-from systems.storage import used_storage, free_storage
+from systems.inventory.storage import used_storage, free_storage
 
 
 class WarehousePanel(Static):
@@ -11,7 +11,8 @@ class WarehousePanel(Static):
     def render(self):
         cargo = []
         planet = self.game.planets[self.game.current_planet]
-        for resource, amount in planet.storage.items():
+        resources = planet.storage
+        for resource, amount in resources.items():
             if amount > 0:
                 cargo.append(f"{resource.upper()}:{amount}")
         if cargo:
@@ -21,10 +22,10 @@ class WarehousePanel(Static):
 
         text = (
             f"[bold red]STORAGE:[/bold red] "
-            f"{used_storage(planet)}/"
+            f"{used_storage(planet, resources)}/"
             f"{planet.storage_capacity} "
             f"[bold red]FREE:[/bold red] "
-            f"{free_storage(planet)}\n"
+            f"{free_storage(planet, resources)}\n"
             f"{cargo_planet_text}\n\n\n"
         )
         title_inside = "WAREHOUSE"

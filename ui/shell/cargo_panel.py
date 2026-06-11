@@ -1,6 +1,7 @@
 from textual.widgets import Static
 from rich.panel import Panel
-from systems.capacity import used_capacity, free_capacity
+from systems.inventory.capacity import used_capacity, free_capacity
+from config.resources import RESOURCES
 
 
 class CargoPanel(Static):
@@ -31,10 +32,10 @@ class CargoPanel(Static):
         player = self.game.player
         text = (
             f"[bold cyan]CARGO:[/bold cyan] "
-            f"{used_capacity(player)}/"
+            f"{used_capacity(player, RESOURCES)}/"
             f"{self.game.player.spacecraft.definition.cargo_capacity} "
             f"[bold cyan]FREE:[/bold cyan] "
-            f"{free_capacity(player)}\n"
+            f"{free_capacity(player, RESOURCES)}\n"
             f"{cargo_spacecraft_text}\n\n\n"
             )
         title_inside = "SHIP CARGO"

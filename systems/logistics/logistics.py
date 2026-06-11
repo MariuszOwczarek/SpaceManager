@@ -1,16 +1,15 @@
 from utils.ui import add_log
-from config.resources import RESOURCES
 from utils.ui import fail
 
 
-def move_resource_from_warehouse_to_spacecraft(game, app, parts):
+def move_resource_from_warehouse_to_spacecraft(game, app, parts, resources):
     planet = game.planets[game.current_planet]
     planet_storage = planet.storage
     player_resources = game.player.resources
     spacecraft_free_capacity = game.player.free_capacity()
     resource_key = parts[1].lower()
 
-    if resource_key not in RESOURCES:
+    if resource_key not in resources:
         return fail(
             game,
             app,
@@ -32,7 +31,7 @@ def move_resource_from_warehouse_to_spacecraft(game, app, parts):
             message="AMOUNT MUST BE > 0"
         )
 
-    resource = RESOURCES[resource_key]
+    resource = resources[resource_key]
     total_weight = (
         amount * resource.weight
     )
@@ -66,13 +65,13 @@ def move_resource_from_warehouse_to_spacecraft(game, app, parts):
     app.refresh_all()
 
 
-def move_resource_from_spacecraft_to_warehouse(game, app, parts):
+def move_resource_from_spacecraft_to_warehouse(game, app, parts, resources):
     planet = game.planets[game.current_planet]
     planet_free_storage = planet.free_storage()
     player_resources = game.player.resources
     resource_key = parts[1].lower()
 
-    if resource_key not in RESOURCES:
+    if resource_key not in resources:
         return fail(
             game,
             app,
@@ -94,7 +93,7 @@ def move_resource_from_spacecraft_to_warehouse(game, app, parts):
             message="AMOUNT MUST BE > 0"
         )
 
-    resource = RESOURCES[resource_key]
+    resource = resources[resource_key]
     total_weight = (
         amount * resource.weight
     )

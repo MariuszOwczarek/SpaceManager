@@ -1,5 +1,6 @@
 from utils.ui import fail
 from systems.economy.trading import buy_resource
+from config.resources import RESOURCES
 
 
 def handle_buy(game, app, parts):
@@ -10,4 +11,4 @@ def handle_buy(game, app, parts):
             message="USAGE: buy iron 10"
         )
 
-    buy_resource(game, app, parts)
+    buy_resource(game, app, parts, RESOURCES)

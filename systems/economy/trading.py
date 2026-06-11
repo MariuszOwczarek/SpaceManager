@@ -1,11 +1,10 @@
-from config.resources import RESOURCES
 from utils.ui import fail, add_log
-from systems.capacity import free_capacity
+from systems.inventory.capacity import free_capacity
 
 
-def buy_resource(game, app, parts):
+def buy_resource(game, app, parts, resources):
     resource_key = parts[1].lower()
-    if resource_key not in RESOURCES:
+    if resource_key not in resources:
         return fail(
             game,
             app,
@@ -20,7 +19,7 @@ def buy_resource(game, app, parts):
             message="INVALID AMOUNT"
         )
 
-    resource = RESOURCES[resource_key]
+    resource = resources[resource_key]
     planet = game.planets[game.current_planet]
 
     if resource_key not in planet.market:
@@ -59,7 +58,7 @@ def buy_resource(game, app, parts):
             message="NOT ENOUGH CREDITS"
         )
 
-    if free_capacity(game.player) < total_weight:
+    if free_capacity(game.player, resources) < total_weight:
         return fail(
             game,
             app,
@@ -71,15 +70,15 @@ def buy_resource(game, app, parts):
         game.player.resources.get(resource_key, 0) + amount
     )
     market.stock -= amount
-    
+
     add_log(game, f"BOUGHT " f"{amount} " f"{resource.name.upper()}")
     app.refresh_all()
 
 
-def sell_resource(game, app, parts):
+def sell_resource(game, app, parts, resources):
     resource_key = parts[1].lower()
 
-    if resource_key not in RESOURCES:
+    if resource_key not in resources:
         return fail(
             game,
             app,
@@ -108,7 +107,7 @@ def sell_resource(game, app, parts):
             message="NOT ENOUGH RESOURCES"
         )
 
-    resource = RESOURCES[resource_key]
+    resource = resources[resource_key]
     planet = game.planets[game.current_planet]
     market = planet.market[resource_key]
     price = market.price

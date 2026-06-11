@@ -1,5 +1,6 @@
 from utils.ui import fail
 from systems.facilities import build_facilities
+from config.facilities import FACILITIES
 
 
 def handle_build(game, app, parts):
@@ -10,4 +11,4 @@ def handle_build(game, app, parts):
             message="USAGE: build factory"
         )
 
-    build_facilities(game, app, parts)
+    build_facilities(game, app, parts, FACILITIES)

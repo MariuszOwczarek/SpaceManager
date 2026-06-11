@@ -1,4 +1,3 @@
-from config.resources import RESOURCES
 import random
 
 
@@ -12,9 +11,9 @@ def save_market_data(game, planet_name):
     }
 
 
-def resource_price_change(planet):
+def resource_price_change(planet, resources):
     for resource_key, market_item in planet.market.items():
-        resource = RESOURCES[resource_key]
+        resource = resources[resource_key]
         market = planet.market[resource_key]
         stock = market.stock
         base_price = resource.base_price

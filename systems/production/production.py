@@ -1,14 +1,13 @@
-from config.planets import PLANETS
 from utils.ui import add_log
 
 
-def factory_production(planet, planet_name, game):
+def factory_production(planets, planet, planet_name, game):
     factories = planet.buildings["factory"]
     if factories <= 0:
         return
 
     fuel_needed = factories * 2
-    bonus_resource = PLANETS[planet_name].resource_bonus
+    bonus_resource = planets[planet_name].resource_bonus
 
     if "fuel" not in planet.market:
         return

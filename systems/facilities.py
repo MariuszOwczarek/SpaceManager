@@ -1,15 +1,16 @@
-from config.facilities import FACILITIES
 from models.state.planet import PlanetState
 from utils.ui import fail, add_log
 
 
-def get_building_credit_cost(facility_key: str, planet: PlanetState):
-    facility = FACILITIES[facility_key]
+def get_building_credit_cost(facilities, facility_key: str,
+                             planet: PlanetState):
+    facility = facilities[facility_key]
     return int(facility.credits * planet.construction_modifier)
 
 
-def get_building_resource_cost(facility_key: str, planet: PlanetState):
-    facility = FACILITIES[facility_key]
+def get_building_resource_cost(facilities, facility_key: str,
+                               planet: PlanetState):
+    facility = facilities[facility_key]
     return {resource: int((amount * planet.construction_modifier))
             for resource, amount in (
                 facility.resources.items()
@@ -17,10 +18,10 @@ def get_building_resource_cost(facility_key: str, planet: PlanetState):
             }
 
 
-def build_facilities(game, app, parts):
+def build_facilities(game, app, parts, facilities):
     structure_key = parts[1].lower()
 
-    if structure_key not in FACILITIES:
+    if structure_key not in facilities:
         return fail(
             game,
             app,
@@ -35,17 +36,17 @@ def build_facilities(game, app, parts):
     # REQUIREMENTS
     # =============================================
     facility = (
-        FACILITIES[
+        facilities[
             structure_key
         ]
     )
 
     credit_cost = (
-        get_building_credit_cost(structure_key, planet)
+        get_building_credit_cost(facilities, structure_key, planet)
     )
 
     resource_costs = (
-        get_building_resource_cost(structure_key, planet)
+        get_building_resource_cost(facilities, structure_key, planet)
     )
 
     population_cost = (

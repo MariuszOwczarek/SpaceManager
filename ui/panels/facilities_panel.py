@@ -20,7 +20,7 @@ class FacilitiesPanel(Static):
         table.add_column("RESOURCES")
         for building_key in FACILITIES:
             resource_costs = (
-                get_building_resource_cost(building_key, planet)
+                get_building_resource_cost(FACILITIES, building_key, planet)
             )
             resource_text = " | ".join(
                 f"{resource[:4].upper()}:{amount}"
@@ -30,7 +30,7 @@ class FacilitiesPanel(Static):
             )
 
             credit_cost = (
-                get_building_credit_cost(building_key, planet)
+                get_building_credit_cost(FACILITIES, building_key, planet)
             )
 
             table.add_row(
