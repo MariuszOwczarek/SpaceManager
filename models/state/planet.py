@@ -1,20 +1,7 @@
 from dataclasses import dataclass
-from models.market import MarketItem
+from models.state.market import MarketItem
 from config.resources import RESOURCES
-
-
-@dataclass(slots=True)
-class PlanetDefinition:
-    name: str
-    shortcut: str
-    planet_type: str
-    color: str
-    cheap_resource: str
-    resource_bonus: str
-    native_resources: list[str]
-    imported_resources: dict[str, float]
-    routes: dict[str, int]
-    is_homeworld: bool
+from models.definition.planet import PlanetDefinition
 
 
 @dataclass(slots=True)

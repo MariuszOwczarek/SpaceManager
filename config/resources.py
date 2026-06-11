@@ -1,4 +1,4 @@
-from models.resource import ResourceDefinition
+from models.definition.resource import ResourceDefinition
 
 RESOURCES = {
     "fuel": ResourceDefinition(

@@ -1,5 +1,6 @@
 from config.resources import RESOURCES
 from utils.ui import fail, add_log
+from systems.capacity import free_capacity
 
 
 def buy_resource(game, app, parts):
@@ -58,7 +59,7 @@ def buy_resource(game, app, parts):
             message="NOT ENOUGH CREDITS"
         )
 
-    if game.player.free_capacity() < total_weight:
+    if free_capacity(game.player) < total_weight:
         return fail(
             game,
             app,

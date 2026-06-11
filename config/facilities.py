@@ -1,4 +1,4 @@
-from models.facilities import FacilityDefinition
+from models.definition.facilities import FacilityDefinition
 
 FACILITIES = {
     "hospital": FacilityDefinition(

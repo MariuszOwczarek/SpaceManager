@@ -1,5 +1,5 @@
 from utils.ui import fail
-from systems.logistics import (
+from systems.logistics.logistics import (
     move_resource_from_warehouse_to_spacecraft)
 
 

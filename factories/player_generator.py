@@ -1,8 +1,8 @@
-from models.transit import TransitState
-from models.spacecraft import SpacecraftState
+from models.state.transit import TransitState
+from models.definition.spacecraft import SpacecraftState
 from config.resources import RESOURCES
 from config.spacecrafts import SPACECRAFTS
-from models.player import PlayerState
+from models.state.player import PlayerState
 
 
 def create_new_player() -> PlayerState:

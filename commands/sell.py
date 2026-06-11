@@ -1,4 +1,4 @@
-from systems.trading import sell_resource
+from systems.economy.trading import sell_resource
 from utils.ui import fail
 
 

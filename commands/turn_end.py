@@ -1,6 +1,6 @@
-from systems.production import factory_production
-from systems.population import hospital_population
-from systems.economy import (resource_price_change, resource_quantity_change)
+from systems.production.production import factory_production
+from systems.population.population import hospital_population
+from systems.economy.economy import (resource_price_change, resource_quantity_change)
 from utils.ui import add_log
 
 

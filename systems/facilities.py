@@ -1,5 +1,5 @@
 from config.facilities import FACILITIES
-from models.planet import PlanetState
+from models.state.planet import PlanetState
 from utils.ui import fail, add_log
 
 

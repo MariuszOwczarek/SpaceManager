@@ -1,5 +1,5 @@
 from utils.ui import fail
-from systems.trading import buy_resource
+from systems.economy.trading import buy_resource
 
 
 def handle_buy(game, app, parts):

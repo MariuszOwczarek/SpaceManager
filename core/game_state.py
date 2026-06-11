@@ -1,5 +1,5 @@
-from systems.world_generation import create_planet_state
-from config.player import create_new_player
+from factories.planet_generator import create_new_planet
+from factories.player_generator import create_new_player
 
 
 class GameState:
@@ -10,9 +10,9 @@ class GameState:
         self.market_memory = {}
         self.player = create_new_player()
         self.planets = {
-            "Mars": create_planet_state("Mars"),
-            "Venus": create_planet_state("Venus"),
-            "Jupiter": create_planet_state("Jupiter"),
-            "Saturn": create_planet_state("Saturn"),
-            "Mercury": create_planet_state("Mercury"),
+            "Mars": create_new_planet("Mars"),
+            "Venus": create_new_planet("Venus"),
+            "Jupiter": create_new_planet("Jupiter"),
+            "Saturn": create_new_planet("Saturn"),
+            "Mercury": create_new_planet("Mercury"),
         }

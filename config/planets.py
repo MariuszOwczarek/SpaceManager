@@ -1,4 +1,4 @@
-from models.planet import PlanetDefinition
+from models.definition.planet import PlanetDefinition
 
 PLANETS = {
     "Mars": PlanetDefinition(
