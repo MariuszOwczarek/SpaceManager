@@ -66,12 +66,12 @@ def buy_resource(game, app, parts):
             message="NOT ENOUGH CARGO SPACE"
         )
 
-    # =============================================
-    # TRANSACTION
-    # =============================================
     game.player.credits -= total_cost
-    game.player.resources[resource_key] += amount
+    game.player.resources[resource_key] = (
+        game.player.resources.get(resource_key, 0) + amount
+    )
     market.stock -= amount
+    
     add_log(game, f"BOUGHT " f"{amount} " f"{resource.name.upper()}")
     app.refresh_all()
 
@@ -101,7 +101,7 @@ def sell_resource(game, app, parts):
             message="AMOUNT MUST BE > 0"
         )
 
-    if game.player.resources[resource_key] < amount:
+    if game.player.resources.get(resource_key, 0) < amount:
         return fail(
             game,
             app,
@@ -114,11 +114,11 @@ def sell_resource(game, app, parts):
     price = market.price
     total = amount * price
 
-    # =============================================
-    # TRANSACTION
-    # =============================================
     game.player.resources[resource_key] -= amount
+    if game.player.resources[resource_key] <= 0:
+        del game.player.resources[resource_key]
     game.player.credits += total
     market.stock += amount
+
     add_log(game, f"SOLD " f"{amount} " f"{resource.name.upper()}")
     app.refresh_all()

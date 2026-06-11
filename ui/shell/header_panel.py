@@ -12,6 +12,9 @@ class HeaderPanel(Static):
         fuel_capacity = (
             self.game.player.spacecraft.definition.fuel_tank_capacity
         )
+
+        fuel = self.game.player.resources.get("fuel", 0)
+
         for resource, amount in self.game.player.resources.items():
             if resource == "fuel":
                 cargo_fuel = max(0, amount - fuel_capacity)
@@ -22,9 +25,7 @@ class HeaderPanel(Static):
             else:
                 if amount > 0:
                     cargo.append(f"{resource.upper()}:{amount}")
-            fuel = self.game.player.resources["fuel"]
-            fuel_capacity = (self.game.player.spacecraft
-                             .definition.fuel_tank_capacity)
+
         text = (
             f"[bold cyan]TURN:[/bold cyan] "
             f"{self.game.turn}\n"

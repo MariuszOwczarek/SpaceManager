@@ -1,15 +1,13 @@
 from models.state.planet import PlanetState
-from config.facilities import FACILITIES
-from config.planets import PLANETS
-from factories.market_generator import create_new_market
+from factories.market_factory import create_new_market
 import random
 
 
-def create_new_planet(name) -> PlanetState:
+def create_new_planet(definition, resources, facilities) -> PlanetState:
     return PlanetState(
-            definition=PLANETS[name],
-            market=create_new_market(name),
-            buildings={building: 0 for building in FACILITIES},
+            definition=definition,
+            market=create_new_market(definition, resources),
+            buildings={building: 0 for building in facilities},
             construction_modifier=random.randrange(5, 20, 5) / 10,
             population=random.randint(300, 1000),
             max_population=random.randrange(3000, 11_000, 1000),

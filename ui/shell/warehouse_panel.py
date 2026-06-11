@@ -1,5 +1,6 @@
 from textual.widgets import Static
 from rich.panel import Panel
+from systems.storage import used_storage, free_storage
 
 
 class WarehousePanel(Static):
@@ -20,10 +21,10 @@ class WarehousePanel(Static):
 
         text = (
             f"[bold red]STORAGE:[/bold red] "
-            f"{planet.used_storage()}/"
+            f"{used_storage(planet)}/"
             f"{planet.storage_capacity} "
             f"[bold red]FREE:[/bold red] "
-            f"{planet.free_storage()}\n"
+            f"{free_storage(planet)}\n"
             f"{cargo_planet_text}\n\n\n"
         )
         title_inside = "WAREHOUSE"

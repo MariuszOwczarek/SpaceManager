@@ -1,6 +1,4 @@
 """
-warehouse transfer
-loading/unloading
 supply chains
 unrest
 piracy

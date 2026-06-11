@@ -1,16 +1,13 @@
-from config.resources import RESOURCES
 import random
-from config.planets import PLANETS
 from models.state.market import MarketItem
 
 
-def create_new_market(planet_name):
+def create_new_market(planet_definition, resources):
     market = {}
-    planet_definition = PLANETS[planet_name]
     native_resources = planet_definition.native_resources
     imported_resources = planet_definition.imported_resources
 
-    for resource_key, resource in RESOURCES.items():
+    for resource_key, resource in resources.items():
         base_price = resource.base_price
         if resource_key in native_resources:
             base_price = int(base_price*0.7)
