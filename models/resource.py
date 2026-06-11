@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass(slots=True)
-class Resource:
+class ResourceDefinition:
     name: str
     base_price: int
     weight: float

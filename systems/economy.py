@@ -19,7 +19,7 @@ def create_market(planet_name):
             chance = imported_resources[resource_key]
             if random.random() <= chance:
                 base_price = int(base_price * 1.5)
-                stock = stock = random.randint(10, 40)
+                stock = random.randint(10, 40)
             else:
                 continue
         else:
@@ -47,7 +47,7 @@ def save_market_data(game, planet_name):
 
 
 def resource_price_change(planet):
-    for resource_key, resource in planet.market.items():
+    for resource_key, market_item in planet.market.items():
         resource = RESOURCES[resource_key]
         market = planet.market[resource_key]
         stock = market.stock

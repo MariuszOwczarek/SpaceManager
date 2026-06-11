@@ -6,9 +6,9 @@ class CommandsPanel(Static):
     def render(self):
         help_text = """
         [bold cyan]COMMANDS[/bold cyan]
-        ACTIONS:   | move     | buy    | sell    | build   | end     | exit
-        PLANETS:   | Mars     | Venus  | Jupiter | Saturn  | Mercury
-        BUILDINGS: | Hospital | School | Factory | Barracks
+        ACTIONS.  : move, buy, sell, build, load, store, end, exit
+        PLANETS   : mars, venus, supiter, saturn, mercury
+        BUILDINGS : hospital, school, factory, barracks
         """
         return Panel(
             help_text,

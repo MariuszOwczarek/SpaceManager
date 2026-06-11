@@ -3,7 +3,7 @@ from typing import Dict
 
 
 @dataclass(slots=True)
-class Facility:
+class FacilityDefinition:
     name: str
     credits: int
     resources: Dict[str, int]

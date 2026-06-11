@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from models.spacecraft import SpacecraftState
 from config.resources import RESOURCES
+from models.transit import TransitState
 
 
 @dataclass(slots=True)
@@ -9,13 +10,8 @@ class PlayerState:
     credits: int
     spacecraft: SpacecraftState
     resources: dict[str, int]
-    in_transit: bool
-    destination: str | None
-    turns_remaining: int
+    transit: TransitState | None = None
 
-    # =====================================================
-    # CARGO
-    # =====================================================
     def used_capacity(self):
         total = 0
         fuel_tank_capacity = (

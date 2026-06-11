@@ -1,5 +1,5 @@
-from config.player import PLAYER_DATA
 from systems.world_generation import create_planet_state
+from config.player import create_new_player
 
 
 class GameState:
@@ -8,7 +8,7 @@ class GameState:
         self.current_planet = "Mars"
         self.logs = ["WELCOME COMMANDER"]
         self.market_memory = {}
-        self.player = PLAYER_DATA["player"]
+        self.player = create_new_player()
         self.planets = {
             "Mars": create_planet_state("Mars"),
             "Venus": create_planet_state("Venus"),

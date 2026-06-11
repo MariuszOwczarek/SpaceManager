@@ -1,7 +1,7 @@
-from models.facilities import Facility
+from models.facilities import FacilityDefinition
 
 FACILITIES = {
-    "hospital": Facility(
+    "hospital": FacilityDefinition(
         name="hospital",
         credits=2500,
         resources={
@@ -15,7 +15,7 @@ FACILITIES = {
         }
     ),
 
-    "school": Facility(
+    "school": FacilityDefinition(
         name="school",
         credits=3000,
         resources={
@@ -28,7 +28,7 @@ FACILITIES = {
         }
     ),
 
-    "factory": Facility(
+    "factory": FacilityDefinition(
         name="factory",
         credits=3500,
         resources={
@@ -42,7 +42,7 @@ FACILITIES = {
         }
     ),
 
-    "barracks": Facility(
+    "barracks": FacilityDefinition(
         name="barracks",
         credits=3500,
         resources={
@@ -57,7 +57,7 @@ FACILITIES = {
         }
     ),
 
-    "housing": Facility(
+    "housing": FacilityDefinition(
         name="housing",
         credits=2200,
         resources={
@@ -71,7 +71,7 @@ FACILITIES = {
         }
     ),
 
-    "farms": Facility(
+    "farms": FacilityDefinition(
         name="farms",
         credits=2200,
         resources={
@@ -84,7 +84,7 @@ FACILITIES = {
         }
     ),
 
-    "reactor": Facility(
+    "reactor": FacilityDefinition(
         name="reactor",
         credits=5000,
         resources={
@@ -98,7 +98,7 @@ FACILITIES = {
         }
     ),
 
-    "warehouse": Facility(
+    "warehouse": FacilityDefinition(
         name="warehouse",
         credits=7000,
         resources={

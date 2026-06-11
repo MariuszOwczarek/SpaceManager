@@ -6,6 +6,8 @@ from commands.move import handle_move
 from commands.buy import handle_buy
 from commands.sell import handle_sell
 from commands.build import handle_build
+from commands.load import handle_load
+from commands.store import handle_store
 from commands.turn_end import handle_turn_end
 from ui.layouts.foreign_layout import ForeignLayout
 from ui.layouts.homeworld_layout import HomeworldLayout
@@ -210,6 +212,18 @@ class StarManager(App):
             )
         elif action == "build":
             handle_build(
+                game=self.game,
+                app=self,
+                parts=parts
+            )
+        elif action in ["l", "load"]:
+            handle_load(
+                game=self.game,
+                app=self,
+                parts=parts
+            )
+        elif action in ["store"]:
+            handle_store(
                 game=self.game,
                 app=self,
                 parts=parts
