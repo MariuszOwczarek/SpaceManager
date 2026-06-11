@@ -5,6 +5,7 @@ from systems.economy.economy import (resource_price_change,
 from utils.ui import add_log
 from config.resources import RESOURCES
 from config.planets import PLANETS
+from app.refresh import refresh_all
 
 
 def handle_turn_end(game, app):
@@ -15,4 +16,4 @@ def handle_turn_end(game, app):
         factory_production(PLANETS, planet, planet_name, game)
         hospital_population(planet, planet_name, game)
     add_log(game, "TURN ENDED")
-    app.refresh_all()
+    refresh_all(app)

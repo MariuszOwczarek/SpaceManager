@@ -1,3 +1,6 @@
+from app.refresh import refresh_all
+
+
 def add_log(game, message):
     game.logs.append(message)
 
@@ -7,5 +10,5 @@ def add_log(game, message):
 
 def fail(game, app, message):
     add_log(game, message)
-    app.refresh_all()
+    refresh_all(app)
     return

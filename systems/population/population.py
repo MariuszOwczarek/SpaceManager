@@ -18,3 +18,4 @@ def hospital_population(planet, planet_name, game):
                     planet.max_population
                 )
             add_log(game, f"{planet_name}: POPULATION +{growth}")
+

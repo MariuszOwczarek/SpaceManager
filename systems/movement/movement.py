@@ -1,5 +1,6 @@
 from utils.ui import fail, add_log
 from systems.economy.economy import save_market_data
+from app.refresh import refresh_all
 
 
 def move_ship(game, app, parts):
@@ -19,4 +20,4 @@ def move_ship(game, app, parts):
     add_log(game, f"MOVED TO {destination.upper()}")
 
     app.load_layout()
-    app.refresh_all()
+    refresh_all(app)

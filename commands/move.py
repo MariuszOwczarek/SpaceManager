@@ -1,5 +1,5 @@
 from utils.ui import fail
-from systems.movement import move_ship
+from systems.movement.movement import move_ship
 
 
 def handle_move(game, app, parts):

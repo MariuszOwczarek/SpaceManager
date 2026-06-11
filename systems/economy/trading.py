@@ -1,5 +1,6 @@
 from utils.ui import fail, add_log
 from systems.inventory.capacity import free_capacity
+from app.refresh import refresh_all
 
 
 def buy_resource(game, app, parts, resources):
@@ -72,7 +73,7 @@ def buy_resource(game, app, parts, resources):
     market.stock -= amount
 
     add_log(game, f"BOUGHT " f"{amount} " f"{resource.name.upper()}")
-    app.refresh_all()
+    refresh_all(app)
 
 
 def sell_resource(game, app, parts, resources):
@@ -120,4 +121,4 @@ def sell_resource(game, app, parts, resources):
     market.stock += amount
 
     add_log(game, f"SOLD " f"{amount} " f"{resource.name.upper()}")
-    app.refresh_all()
+    refresh_all(app)
