@@ -1,9 +1,9 @@
 from models.state.tasks.transport_task import TaskStatus
 from utils.ui import fail
-from config.balance.contracts import TASK_DECISSION
+from config.balance.contracts import TASK_DECISION
 
 
-def handle_task_decission(game, app, parts):
+def handle_task_decision(game, app, parts):
     try:
         number = int(parts[1])
     except ValueError:
@@ -13,9 +13,9 @@ def handle_task_decission(game, app, parts):
             message="INVALID TASK NUMBER"
         )
 
-    decission = parts[2].lower()
+    decision = parts[2].lower()
 
-    if decission not in TASK_DECISSION:
+    if decision not in TASK_DECISION:
         return fail(
             game,
             app,
@@ -38,8 +38,8 @@ def handle_task_decission(game, app, parts):
             message="TASK DOESNT EXIST"
         )
 
-    if decission == TASK_DECISSION[0]:
+    if decision == TASK_DECISION[0]:
         task.status = TaskStatus.ACCEPTED
 
-    elif decission == TASK_DECISSION[1]:
+    elif decision == TASK_DECISION[1]:
         game.tasks.remove(task)

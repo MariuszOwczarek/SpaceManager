@@ -1,4 +1,4 @@
-TASK_DECISSION = ['accept', 'reject']
+TASK_DECISION = ['accept', 'reject']
 
 TASK_MIN_QUANTITY = 10
 TASK_MAX_QUANTITY = 200

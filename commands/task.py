@@ -1,5 +1,5 @@
 from utils.ui import fail
-from systems.contracts.task_choose import handle_task_decission
+from systems.contracts.task_choose import handle_task_decision
 
 
 def handle_task(game, app, parts):
@@ -10,4 +10,4 @@ def handle_task(game, app, parts):
             message="USAGE: task 1 accept / task 1 reject"
         )
 
-    handle_task_decission(game, app, parts)
+    handle_task_decision(game, app, parts)
