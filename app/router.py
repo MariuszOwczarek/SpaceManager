@@ -12,7 +12,7 @@ from utils.ui import fail, add_log
 # =====================================================
 # COMMANDS
 # =====================================================
-def process_command(app, command):
+async def process_command(app, command):
     parts = command.split()
 
     if not parts:
@@ -27,7 +27,7 @@ def process_command(app, command):
     if action in ["x", "exit"]:
         app.exit()
     elif action in ["m", "move"]:
-        handle_move(
+        await handle_move(
             game=app.game,
             app=app,
             parts=parts

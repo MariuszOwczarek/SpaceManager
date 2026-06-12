@@ -15,19 +15,11 @@ class GameState:
         self.player = create_new_player(definition=SPACECRAFTS["shuttle"],
                                         resources=RESOURCES)
         self.planets = {
-            "Mars": create_new_planet(definition=PLANETS["Mars"],
-                                      resources=RESOURCES,
-                                      facilities=FACILITIES),
-            "Venus": create_new_planet(definition=PLANETS["Venus"],
-                                       resources=RESOURCES,
-                                       facilities=FACILITIES),
-            "Jupiter": create_new_planet(definition=PLANETS["Jupiter"],
-                                         resources=RESOURCES,
-                                         facilities=FACILITIES),
-            "Saturn": create_new_planet(definition=PLANETS["Saturn"],
-                                        resources=RESOURCES,
-                                        facilities=FACILITIES),
-            "Mercury": create_new_planet(definition=PLANETS["Mercury"],
-                                         resources=RESOURCES,
-                                         facilities=FACILITIES),
+            name: create_new_planet(
+                definition=definition,
+                resources=RESOURCES,
+                facilities=FACILITIES,
+            )
+            for name, definition in PLANETS.items()
+
         }

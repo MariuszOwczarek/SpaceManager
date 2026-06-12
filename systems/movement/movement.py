@@ -19,5 +19,4 @@ def move_ship(game, app, parts):
     save_market_data(game, destination)
     add_log(game, f"MOVED TO {destination.upper()}")
 
-    app.load_layout()
     refresh_all(app)

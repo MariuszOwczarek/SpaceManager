@@ -125,10 +125,10 @@ class StarManager(App):
     async def on_mount(self):
         await load_layout(app)
 
-    def on_input_submitted(self, event: Input.Submitted):
+    async def on_input_submitted(self, event: Input.Submitted):
         command = event.value.lower()
         event.input.value = ""
-        process_command(self, command)
+        await process_command(self, command)
 
 
 if __name__ == "__main__":

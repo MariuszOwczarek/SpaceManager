@@ -1,8 +1,10 @@
 from utils.ui import fail
 from systems.movement.movement import move_ship
+from app.layout_manager import load_layout
+from app.refresh import refresh_all
 
 
-def handle_move(game, app, parts):
+async def handle_move(game, app, parts):
     if len(parts) < 2:
         return fail(
             game,
@@ -11,3 +13,6 @@ def handle_move(game, app, parts):
         )
 
     move_ship(game, app, parts)
+
+    await load_layout(app)
+    refresh_all(app)

@@ -19,7 +19,7 @@ def free_capacity(player, resources):
 
 
 def fuel_used_capacity(player):
-    fuel = player.resources["fuel"]
+    fuel = player.resources.get("fuel", 0)
     return fuel
 
 
@@ -29,6 +29,6 @@ def free_fuel(player):
 
 
 def cargo_fuel(player):
-    total_fuel = player.resources["fuel"]
+    total_fuel = player.resources.get("fuel", 0)
     fuel_capacity = player.spacecraft.definition.fuel_tank_capacity
     return max(0, total_fuel - fuel_capacity)
