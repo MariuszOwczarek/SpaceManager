@@ -33,9 +33,6 @@ def build_facilities(game, app, parts, facilities):
         game.current_planet
     ]
 
-    # =============================================
-    # REQUIREMENTS
-    # =============================================
     facility = (
         facilities[
             structure_key
@@ -54,9 +51,6 @@ def build_facilities(game, app, parts, facilities):
         facility.population
     )
 
-    # =============================================
-    # CREDIT CHECK
-    # =============================================
     if (
         game.player.credits
         < credit_cost
@@ -67,9 +61,6 @@ def build_facilities(game, app, parts, facilities):
             message="NOT ENOUGH CREDITS"
         )
 
-    # =============================================
-    # POPULATION CHECK
-    # =============================================
     if (
         planet.population < population_cost
     ):
@@ -79,9 +70,6 @@ def build_facilities(game, app, parts, facilities):
             message="NOT ENOUGH POPULATION"
         )
 
-    # =============================================
-    # RESOURCE CHECK
-    # =============================================
     for resource, amount in (
         resource_costs.items()
     ):
@@ -97,36 +85,21 @@ def build_facilities(game, app, parts, facilities):
                     )
             )
 
-    # =============================================
-    # PAY CREDITS
-    # =============================================
     game.player.credits -= (
         credit_cost
     )
 
-    # =============================================
-    # PAY POPULATION
-    # =============================================
     planet.population -= (
         population_cost
     )
 
-    # =============================================
-    # PAY RESOURCES
-    # =============================================
     for resource, amount in (
         resource_costs.items()
     ):
         game.player.resources[resource] -= amount
 
-    # =============================================
-    # BUILD
-    # =============================================
     planet.buildings[structure_key] += 1
 
-    # =============================================
-    # BUILDING EFFECTS
-    # =============================================
     for attribute, value in (
         facility.effects.items()
     ):
@@ -141,8 +114,5 @@ def build_facilities(game, app, parts, facilities):
             current + value
         )
 
-    # =============================================
-    # LOG
-    # =============================================
     add_log(game, f"BUILT {structure_key.upper()}")
     refresh_all(app)

@@ -1,4 +1,3 @@
-from ui.layouts.base_layout import BaseLayout
 from ui.shell.logs_panel import LogsPanel
 from ui.shell.header_panel import HeaderPanel
 from ui.shell.cargo_panel import CargoPanel
@@ -17,9 +16,8 @@ def refresh_shell(app):
 
 
 def refresh_layout(app):
-    layouts = list(app.query(BaseLayout))
-    if layouts:
-        layouts[0].refresh_all()
+    if app.current_layout:
+        app.current_layout.refresh_all()
 
 
 def refresh_all(app):

@@ -6,6 +6,7 @@ from commands.build import handle_build
 from commands.load import handle_load
 from commands.store import handle_store
 from commands.turn_end import handle_turn_end
+from commands.task import handle_task
 from utils.ui import fail, add_log
 
 
@@ -66,6 +67,12 @@ async def process_command(app, command):
         handle_turn_end(
             game=app.game,
             app=app
+        )
+    elif action in ["t", "task"]:
+        handle_task(
+            game=app.game,
+            app=app,
+            parts=parts
         )
     elif action == "help":
         add_log(app.game, "move mars | buy iron 10 | sell gold 5")

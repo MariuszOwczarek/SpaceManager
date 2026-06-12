@@ -10,7 +10,7 @@ from ui.shell.cargo_panel import CargoPanel
 from ui.shell.warehouse_panel import WarehousePanel
 from ui.shell.intel_panel import IntelPanel
 from ui.shell.command_panel import CommandsPanel
-from app. router import process_command
+from app.router import process_command
 from app.layout_manager import load_layout
 
 
@@ -89,6 +89,7 @@ class StarManager(App):
     def __init__(self):
         super().__init__()
         self.game = GameState()
+        self.current_layout = None
 
     def compose(self):
         with Horizontal(id="top"):
@@ -123,7 +124,7 @@ class StarManager(App):
             )
 
     async def on_mount(self):
-        await load_layout(app)
+        await load_layout(self)
 
     async def on_input_submitted(self, event: Input.Submitted):
         command = event.value.lower()

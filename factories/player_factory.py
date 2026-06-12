@@ -1,12 +1,13 @@
 from models.state.transit import TransitState
 from models.definition.spacecraft import SpacecraftState
 from models.state.player import PlayerState
+from config.balance.player import STARTING_CREDITS, PLAYER_NAME
 
 
 def create_new_player(definition, resources) -> PlayerState:
     return PlayerState(
-        player_name="Mario",
-        credits=500_000,
+        player_name=PLAYER_NAME,
+        credits=STARTING_CREDITS,
         spacecraft=SpacecraftState(
             definition=definition,
             fuel=definition.fuel_tank_capacity),
