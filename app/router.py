@@ -8,6 +8,7 @@ from commands.store import handle_store
 from commands.turn_end import handle_turn_end
 from commands.task import handle_task
 from utils.ui import fail, add_log
+from .workspace_manager import load_workspace
 
 
 # =====================================================
@@ -74,6 +75,10 @@ async def process_command(app, command):
             app=app,
             parts=parts
         )
+    elif action in ["market"]:
+        app.current_workspace = "market"
+        await load_workspace(app)
+
     elif action == "help":
         add_log(app.game, "move mars | buy iron 10 | sell gold 5")
         refresh_all(app)

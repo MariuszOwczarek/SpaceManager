@@ -1,5 +1,5 @@
-from textual.widgets import Static
 from ui.layouts.base_layout import BaseLayout
+from textual.containers import Container
 
 
 class ForeignLayout(BaseLayout):
@@ -8,7 +8,9 @@ class ForeignLayout(BaseLayout):
         self.game = game
 
     def compose(self):
-        yield Static("FOREIGN TERMINAL")
+        yield Container(
+            id="workspace_content"
+        )
 
     def refresh_all(self):
         refreshables = [

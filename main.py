@@ -1,6 +1,7 @@
 from textual.app import App
 from textual.widgets import Input
 from textual.containers import Horizontal
+from app.workspace_manager import load_workspace
 from core.game_state import GameState
 
 from textual.containers import Container
@@ -90,6 +91,7 @@ class StarManager(App):
         super().__init__()
         self.game = GameState()
         self.current_layout = None
+        self.current_workspace = None
 
     def compose(self):
         with Horizontal(id="top"):
@@ -104,9 +106,9 @@ class StarManager(App):
                 id="intel"
             )
 
-        yield Container(
-            id="main_content"
-        )
+            yield Container(
+                id="workspace_content"
+            )
 
         with Horizontal(id="bottom_input"):
             yield Input(
@@ -125,6 +127,8 @@ class StarManager(App):
 
     async def on_mount(self):
         await load_layout(self)
+        self.current_workspace = "overview"
+        await load_workspace(self)
 
     async def on_input_submitted(self, event: Input.Submitted):
         command = event.value.lower()
