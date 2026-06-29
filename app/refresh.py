@@ -16,9 +16,11 @@ def refresh_shell(app):
 
 
 def refresh_layout(app):
-    if app.current_layout:
-        app.current_layout.refresh_all()
+    layout = app.current_layout
+    if layout is not None:
+        layout.refresh_all()
 
+    
 
 def refresh_all(app):
     refresh_shell(app)

@@ -29,32 +29,22 @@ class PlanetPanel(Vertical):
 
     def refresh_planet_style(self):
         planet = self.game.planets[self.game.current_planet]
-        planet_name = (
-            planet.definition.name
-        )
-
-        planet_type = (
-            planet.definition.planet_type
-        )
-
-        planet_color = (
-            planet.definition.color
-        )
+        definition = planet.definition
 
         self.border_title = (
-            f"[{planet_color}]"
+            f"[{definition.color}]"
             f"PLANET "
-            f"{planet_name.upper()} "
+            f"{definition.name.upper()} "
             f"COMMAND CENTER "
             f"[/]"
             f"([dim]"
-            f"{planet_type.upper()}"
+            f"{definition.type.upper()}"
             f"[/dim])"
         )
 
         self.styles.border = (
             "solid",
-            planet_color
+            definition.color
         )
 
         self.refresh()

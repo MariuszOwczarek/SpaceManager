@@ -34,9 +34,9 @@ class MarketPanel(Static):
                 f"[{color}]" f"{price}" f"[/{color}]",
                 str(resource.weight),
             )
-        planet_color = (planet.definition.color)
+        definition = planet.definition
         return Panel(table,
-                     title=f"[{planet_color}]"
+                     title=f"[{definition.color}]"
                      f"MARKET PLACE"
-                     f"[/{planet_color}]",
-                     border_style=planet_color)
+                     f"[/{definition.color}]",
+                     border_style=definition.color)

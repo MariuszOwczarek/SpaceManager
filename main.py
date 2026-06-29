@@ -1,7 +1,6 @@
 from textual.app import App
 from textual.widgets import Input
 from textual.containers import Horizontal
-from app.workspace_manager import load_workspace
 from core.game_state import GameState
 
 from textual.containers import Container
@@ -126,8 +125,6 @@ class StarManager(App):
 
     async def on_mount(self):
         await load_layout(self)
-        self.current_workspace = "overview"
-        await load_workspace(self)
 
     async def on_input_submitted(self, event: Input.Submitted):
         command = event.value.lower()

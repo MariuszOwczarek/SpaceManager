@@ -1,6 +1,5 @@
 from utils.ui import add_log
 from utils.ui import fail
-from app.refresh import refresh_all
 
 
 def move_resource_from_warehouse_to_spacecraft(game, app, parts, resources):
@@ -63,7 +62,6 @@ def move_resource_from_warehouse_to_spacecraft(game, app, parts, resources):
         + amount)
 
     add_log(game, f"LOADED {amount} {resource_key.upper()}")
-    refresh_all(app)
 
 
 def move_resource_from_spacecraft_to_warehouse(game, app, parts, resources):
@@ -124,4 +122,3 @@ def move_resource_from_spacecraft_to_warehouse(game, app, parts, resources):
         )
 
     add_log(game, f"STORED {amount} {resource_key.upper()}")
-    refresh_all(app)

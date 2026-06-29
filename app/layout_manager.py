@@ -1,5 +1,6 @@
 from ui.layouts.foreign_layout import ForeignLayout
 from ui.layouts.homeworld_layout import HomeworldLayout
+from app.workspace_manager import load_workspace
 
 
 async def load_layout(app):
@@ -14,6 +15,8 @@ async def load_layout(app):
     else:
         layout = ForeignLayout(app.game)
 
+    app.current_layout = layout
+
     await container.mount(layout)
 
-    app.current_layout = layout
+    await load_workspace(app)

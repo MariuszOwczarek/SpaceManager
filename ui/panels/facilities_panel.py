@@ -39,9 +39,9 @@ class FacilitiesPanel(Static):
                 str(credit_cost),
                 resource_text
             )
-        planet_color = (planet.definition.color)
+        definition = planet.definition
         return Panel(table,
-                     title=f"[{planet_color}]"
+                     title=f"[{definition.color}]"
                      f"FACILITY PROGRESS"
-                     f"[/{planet_color}]",
-                     border_style=planet_color)
+                     f"[/{definition.color}]",
+                     border_style=definition.color)
