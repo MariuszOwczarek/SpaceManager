@@ -24,9 +24,8 @@ class StarManager(App):
         height: 1fr;
         layout: horizontal;
     }
-    #middle {
+    #main_content {
         height: 1.3fr;
-        layout: horizontal;
     }
     #bottom_input{
         height: 5;
@@ -106,9 +105,9 @@ class StarManager(App):
                 id="intel"
             )
 
-            yield Container(
-                id="workspace_content"
-            )
+        yield Container(
+            id="main_content"
+        )
 
         with Horizontal(id="bottom_input"):
             yield Input(

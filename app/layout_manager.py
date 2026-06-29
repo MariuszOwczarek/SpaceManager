@@ -3,7 +3,7 @@ from ui.layouts.homeworld_layout import HomeworldLayout
 
 
 async def load_layout(app):
-    container = app.query_one("#workspace_content")
+    container = app.query_one("#main_content")
 
     await container.remove_children()
 
