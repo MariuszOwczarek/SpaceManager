@@ -2,6 +2,7 @@ from utils.ui import fail
 from systems.logistics.logistics import (
     move_resource_from_warehouse_to_spacecraft)
 from config.resources import RESOURCES
+from app.refresh import refresh_all
 
 
 def handle_load(game, app, parts):
@@ -13,3 +14,5 @@ def handle_load(game, app, parts):
         )
 
     move_resource_from_warehouse_to_spacecraft(game, app, parts, RESOURCES)
+
+    refresh_all(app)

@@ -1,6 +1,7 @@
 from utils.ui import fail
 from systems.facilities import build_facilities
 from config.facilities import FACILITIES
+from app.refresh import refresh_all
 
 
 def handle_build(game, app, parts):
@@ -12,3 +13,5 @@ def handle_build(game, app, parts):
         )
 
     build_facilities(game, app, parts, FACILITIES)
+
+    refresh_all(app)

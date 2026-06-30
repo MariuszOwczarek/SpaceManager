@@ -15,4 +15,5 @@ async def handle_move(game, app, parts):
     move_ship(game, app, parts)
 
     await load_layout(app)
+
     refresh_all(app)

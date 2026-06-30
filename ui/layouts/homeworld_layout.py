@@ -8,7 +8,7 @@ from ui.panels.facilities_panel import FacilitiesPanel
 
 class HomeworldLayout(BaseLayout):
     def compose(self):
-        with Horizontal(id="main_content"):
+        with Horizontal():
             yield Container(
                 id="workspace_content"
             )

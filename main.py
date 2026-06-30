@@ -124,6 +124,7 @@ class StarManager(App):
             )
 
     async def on_mount(self):
+        self.current_workspace = "overview"
         await load_layout(self)
 
     async def on_input_submitted(self, event: Input.Submitted):

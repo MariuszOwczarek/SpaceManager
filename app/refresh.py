@@ -20,8 +20,6 @@ def refresh_layout(app):
     if layout is not None:
         layout.refresh_all()
 
-    
 
 def refresh_all(app):
     refresh_shell(app)
-    refresh_layout(app)

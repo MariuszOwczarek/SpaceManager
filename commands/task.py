@@ -1,5 +1,6 @@
 from utils.ui import fail
 from systems.contracts.task_choose import handle_task_decision
+from app.refresh import refresh_all
 
 
 def handle_task(game, app, parts):
@@ -11,3 +12,5 @@ def handle_task(game, app, parts):
         )
 
     handle_task_decision(game, app, parts)
+
+    refresh_all(app)

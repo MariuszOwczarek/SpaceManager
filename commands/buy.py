@@ -1,3 +1,4 @@
+from app.refresh import refresh_all
 from utils.ui import fail
 from systems.economy.trading import buy_resource
 from config.resources import RESOURCES
@@ -12,3 +13,5 @@ def handle_buy(game, app, parts):
         )
 
     buy_resource(game, app, parts, RESOURCES)
+
+    refresh_all(app)
